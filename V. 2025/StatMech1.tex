@@ -1,0 +1,956 @@
+\documentclass{article} 
+\pagenumbering{arabic}
+%\usepackage[utf8]{inputenc}
+\usepackage{url}
+\usepackage{multicol}
+\usepackage{centernot}
+\usepackage{mathtools}
+\usepackage{cancel}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{setspace} % Required for line spacing modification
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{cd, matrix}
+\usepackage{mathtools}
+\usepackage{polyglossia} %This is the package that gives access to fonts.
+\setdefaultlanguage{hebrew}  %this makes the titles RTL, switch these if you write mostly in English
+\setotherlanguage{english}  
+\newfontfamily\hebrewfont[Script=Hebrew]{David CLM} %This font will work in Overleaf, Linux and Mac installs, if you're running windows you'd need to pick the right ones
+\newfontfamily\hebrewfontsf[Script=Hebrew]{Miriam CLM}
+\renewcommand\thesubsection{\arabic{subsection}}
+\advance\topmargin-1.3in
+\advance\textheight3in
+\advance\textwidth3in
+\advance\oddsidemargin-1.45in
+\advance\evensidemargin-1.45in
+\parindent0pt
+\parskip2pt
+\tikzstyle{mybox} = [draw=black, fill=white, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=10pt]
+\tikzstyle{fancytitle} =[fill=black, text=white, font=\bfseries]
+% Define a custom environment called 'mytikzbox'
+\newenvironment{mytikzbox}[3]{%
+    \begin{tikzpicture}
+        \node [mybox] (box){%
+            \begin{minipage}{#3\textwidth}
+                \begin{flushright}
+                    \RL{%
+                        #2%
+                    \vspace{-6pt}
+                    }
+                \end{flushright}
+            \end{minipage}
+        };
+        \node[fancytitle, left=10pt] at (box.north east) {\texthebrew{#1}};
+}{%
+    \end{tikzpicture}
+}
+\begin{document}
+    \begin{multicols*}{2}
+    \begin{flushright}
+\section*{\Large{דף נוסחאות - מכניקה סטטיסטית}}
+    \unskip
+    \begin{mytikzbox}{פוטנציאלים תרמודינמיים}{
+\begin{center}
+\begin{tikzpicture}[
+    node distance=2cm and 3.5cm,
+    main/.style={anchor=center},
+    arrow/.style={thick, {Stealth}-{Stealth}},
+    labelstyle/.style={midway, fill=white, inner sep=1pt}
+]
+
+% Nodes
+\node[main] (A1) at (0,0) {$E(S,V,N)$};
+\node[main] (A2) at (5,0) {$H(S,P,N)$};
+
+\node[main] (B1) at (0,-3) {$F(T,V,N)$};
+\node[main] (B2) at (5,-3) {$G(T,P,N)$};
+
+\node[main] (C1) at (0,-6) {$\mathcal{G}(T,V,\mu)$};
+
+\node[align=right, anchor=west] at (1.7,-4.5) {
+    \textbf{לג'נדר: התמרת}\\
+    $p=\frac{\partial f}{\partial x}$
+    \\
+    $f^*(p)=px(p)-f(x(p))$
+};
+
+% Arrows (reversed tails: draw from target to source)
+\draw[arrow] (A2) -- (A1) node[labelstyle, above] {$V\leftrightarrow P$};
+\draw[arrow] (B1) -- (A1) node[labelstyle, left] {$S\leftrightarrow T$};
+\draw[arrow] (B2) -- (B1) node[labelstyle, above] {$V\leftrightarrow P$};
+\draw[arrow] (C1) -- (B1) node[labelstyle, left] {$N\leftrightarrow \mu$};
+\draw[arrow] (A2) -- (B2) node[labelstyle, right] {$S\leftrightarrow T$};
+\end{tikzpicture}\end{center}\;
+\\[-40pt]
+\begin{align*}
+& E = TS - PV + \mu N & dE &= TdS - PdV + \mu dN\\
+& H = E + PV = TS + \mu N & dH &= TdS + VdP + \mu dN\\
+& F = E - TS = -PV + \mu N & dF &= -SdT - PdV + \mu dN\\
+& G = E - TS + PV = \mu N & dG &= -SdT + VdP + \mu dN\\
+& \mathcal{G} = F - \mu N = -PV & d\mathcal{G} &= -SdT - PdV - Nd\mu
+\end{align*}\\[-10pt]
+        }{0.46}
+    \end{mytikzbox}
+    \begin{mytikzbox}{גדלים תרמודינמים}{
+        $$\beta = \frac{1}{k_B T},\qquad \frac{\partial \beta}{\partial T}=-\frac{1}{T^2k_b}=-\beta^2 k_B,\qquad C = \frac{\partial U}{\partial T}$$
+        $$J_i \equiv \frac{\partial E(S,x_i)}{\partial x_i}\qquad \mathrm{d}E = T \mathrm{d}S+\sum_i J_i \mathrm{d}x_i$$
+        $$E(S,x_i)=T(S,x_i)S+\sum_i J_i x_i\qquad S \mathrm{d}T+\sum_i x_i \mathrm{d}J_i=0$$\vspace{-8pt}
+    }{0.46}\end{mytikzbox}
+    \begin{mytikzbox}{צבר קנוני}{
+$$Z_{F}(\beta)=\sum_{\{\text{micro}\}}e^{ -\beta E(\text{micro}) }=\sum_{E_{a}}g(E)e^{ -\beta E_{a} }$$
+כאשר $g(E_{a})$ זה הכפליות של מצב עם אנרגיה $E_{a}$.
+$$F=-\frac{1}{\beta}\ln Z_{F}(\beta)\Rightarrow E=\frac{\partial }{\partial \beta}(\beta F)=-\frac{\partial \ln Z_F}{\partial \beta}$$
+$$S=-\frac{\partial F}{\partial T}=\frac{E}{T}+k_B\ln Z_F\qquad P=-\frac{\partial F}{\partial V}=\frac{1}{\beta} \frac{\partial Z_F}{\partial V}$$
+\textbf{במרחב פאזה:}
+$$Z_{F}(\beta)=g\underbrace{ \prod_{i=1}^{N}\int  \;\mathrm{d}^{3}\mathbf{p}_{i}\int  \;\mathrm{d}^{3}\mathbf{q}_{i} }_{ \text{Space Phase} }\; e^{ -\beta \mathcal{H}  }$$
+$N$ חלקיקים בקופסא:
+$$\!\!\!\!Z(T,V)\!=\!{\frac{1}{N!h^{3N}}}\!\!\int\!\!\cdots\!\!\int\! e^{-\beta H(\{{\bf p}_{i}\},\{{\bf r}_{i}\})}d^{3}p_{1}\!\cdots d^{3}p_{N}d^{3}r_{1}\!\cdots d^{3}r_{N}$$
+\textbf{תוחלת:} $\langle A\rangle={\frac{1}{Z}}\sum_{\mathrm{\{ micro \}}}A(\mathrm{ micro})e^{-\beta H(\mathrm{micro})}$
+\\[-2pt]}{0.46}
+    \end{mytikzbox}
+    \begin{mytikzbox}{צבר גיבס}{
+$$
+Z_{G}(\beta, P, N) = \sum_{\text{micro}} e^{-\beta \overline{H}(\text{micro})}
+$$
+כאשר $\overline{H} = E + PV$ היא האנתלפיה של המערכת.
+
+$$
+Z_{G}(\beta, P, N) = \int dV\, e^{-\beta P V} Z_{F}(T, V, N)
+$$
+שזו התמרת לפלס של $Z_F$.
+
+$$
+\langle \overline{H} \rangle = -\frac{\partial}{\partial \beta} \ln Z_{G}
+\qquad
+S = k_B \ln Z_{G} + k_B \beta \langle \overline{H} \rangle
+$$
+\textbf{דוגמא - ספינים בשדה מגנטי:} מערכת של חלקיקים עם ספין הם צבר גיבס תחת ההקבלות:
+$$
+B \leftrightarrow -P, \quad M = \sum_{i=1}^N s_i \leftrightarrow V, \quad -BM \leftrightarrow PV
+$$
+\\[-13pt]
+    }{0.46}
+    \end{mytikzbox}
+    \begin{mytikzbox}{צבר גרנד קנוני}{
+    $$
+    Z_{\mathcal{G}}(\beta, V, \mu) = \sum_{N=0}^{\infty} e^{\beta \mu N} Z_{F}(\beta, V, N)=\sum_{N}z^{N}Z_{F}(\beta,V,N)
+    $$
+    כאשר $Z_F$ הוא הפונקציה הקנונית עבור $N$ חלקיקים.
+
+    $$
+    \mathcal{G} = -\frac{1}{\beta} \ln Z_{\mathcal{G}}
+    $$
+
+    $$
+    \langle N \rangle = \frac{1}{\beta} \frac{\partial}{\partial \mu} \ln Z_{\mathcal{G}}
+    \qquad
+    S = k_B \ln Z_{\mathcal{G}} + k_B \beta (E - \mu \langle N \rangle)
+    $$
+    % במרחב פאזה:
+    % $$
+    % Z_{\mathcal{G}}(\beta, V, \mu) = \sum_{N=0}^{\infty} \frac{e^{\beta \mu N}}{N! h^{3N}} \int \prod_{i=1}^N d^3\mathbf{p}_i\, d^3\mathbf{q}_i\, e^{-\beta \mathcal{H}_N}
+    % $$
+    \\[-13pt]
+    }{0.46}
+    \end{mytikzbox}
+    \begin{mytikzbox}{אנטרופיית גיבס-שנון ועקרון ג'יינס}{
+    \textbf{אנטרופיית גיבס-שנון:} יהי $X$ משתנה מקרי עם התפלגות הסתברות $P_{X}(x)$. אזי האנטרופיה של ההתפלגות מוגדר על ידי:
+$$S(P_{X})=-\sum_{x}P_{X}\left(x\right)\log\left(P_{X}\left(x\right)\right)=-\left\langle\log\left(P_{X}\right)\right\rangle$$
+
+    \textbf{עקרון ג'יינס (מקסימום אנטרופיה):} בהנתן אילוצים, מערכות מסדרות את עצמן למאקרו מצב עם אינפורמציה האקסטרימאלית
+    }{0.46}
+    \end{mytikzbox}
+    \begin{mytikzbox}{עקרון ג'יינס - התפלגרות בולצמן}{
+    \textbf{מקסימום אנטרופיה עם אילוצים:}
+    נרצה למקסם את $S_{GS}[P]$ תחת אילוצים על נורמליזציה ותוחלת אנרגיה, בעזרת כופלי לגרנג':
+    \[
+    \overline{S}[P] = S_{GS}[P] + \lambda_1 \left( \sum P - 1 \right) + \lambda_2 \left( \sum E P - \langle E \rangle \right)
+    \]
+גזירה לפי $\lambda_1,\lambda_2$ נותנת את האילוצים כאשר
+    גזירה לפי $P$ נותנת:
+    \[
+    -k_B [\log P + 1] + \lambda_1 + \lambda_2 E = 0
+    \;\Rightarrow\;
+    P(\text{micro}) \propto e^{\lambda_2 E(\text{micro}) / k_B}
+    \]
+    נדרוש נורמליזציה ונקבל:
+    \[
+    P(\text{micro}) = \frac{1}{Z_F} e^{-\beta E(\text{micro})}
+    \qquad
+    Z_F = \sum_{\text{micro}} e^{-\beta E(\text{micro})}
+    \]
+    כאשר $\lambda_2 = -\beta = -1/(k_B T)$.
+    זוהי התפלגות בולצמן הקנונית.
+    }{0.46}
+    \end{mytikzbox}
+    \pagebreak
+    \subsection*{מערכות עם אינטראקציה}\unskip
+    \begin{mytikzbox}{מודל איזינג חד מימדי מחזורי}{
+\unskip עבור מערכות עם אינטראקציה: $H(\text{micro})=\sum_{i=1}^{N} H_{\text{free}}^{i}+H_{\text{int}}$. 
+
+\textbf{מודל איזינג חד מימדי מחזורי:}
+$$H_{\text{free}}^{i}=\sum_{i=1}^N s_i\qquad H_{\text{int}}^{(\text{micro})}=-J\sum_{i=1}^{N} s_{i}s_{i+1}\qquad s_{N+1}\equiv s_1$$
+    
+\textbf{פונקציית החלוקה:}
+ניתן לכתוב את פונקציית החלוקה על ידי:
+$$Z_{G}=\mathrm{tr}\left( \exp \left\{  \beta\left( J\sum_{i=1}^{N} s_{i}s_{i+1} + B\sum_{i=1}^{N} s_{i} \right)  \right\} \right)$$
+$$
+Z_G = \mathrm{tr} \prod_{i=1}^N \exp\left\{ \beta \left[ J s_i s_{i+1} + \frac{B}{2}(s_i + s_{i+1}) \right] \right\}
+$$
+פונקציית החלוקה ניתנת לכתיבה בעזרת מטריצת מעבר $M$:
+$$
+Z_{G}=\sum_{s_{1}}(M^{N})_{s_{1}s_{1}}=\mathrm{Tr}(M^{N})$$\\[-10pt]
+כאשר $M_{ab} = \exp\left(\beta J ab + \frac{\beta B}{2}(a+b)\right)$ ולספין חצי:
+$$
+M = \begin{pmatrix}
+e^{\beta(J-B)} & e^{-\beta J} \\
+e^{-\beta J} & e^{\beta(J+B)}
+\end{pmatrix}
+$$
+וניתן למצוא ע"ע $\lambda_{\pm}$ כך ש-$Z_{G}=\mathrm{Tr}(M_{d}^{N})=\lambda_{+}^{N}+\lambda_{-}^{N}$
+
+\textbf{אנרגיה חופשית של גיבס:}
+$$G=-{\frac{1}{\beta}}\log Z_{G}=-{\frac{1}{\beta}}\log\left(\lambda_{+}^{N}+\lambda_{-}^{N}\right)\xrightarrow{N\to\infty}-{\frac{N}{\beta}}\log\lambda_{+}$$
+
+\textbf{ערכים עצמיים:}
+$$\lambda_{\pm}=e^{\beta J}\cosh(\beta B)\pm\sqrt{e^{2\beta J}\sinh^{2}(\beta B)+e^{-2\beta J}}$$
+
+\textbf{קורולציה:}
+\textbf{קורלציה בין ספינים:}
+\[
+\langle s_j s_k \rangle = \frac{1}{Z_G} \mathrm{Tr}\left[ \sigma_z M^{k-j} \sigma_z M^{N-(k-j)} \right]\quad \sigma_z = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
+\]
+
+נובע
+הגדרת התוחלת - $
+\langle s_j s_k \rangle = \frac{1}{Z_G} \mathrm{tr}\left( s_j s_k e^{-\beta H} \right)$
+פונקציית החלוקה נכתבת כמכפלת מטריצות מעבר, ולכן אפשר לייצג את $s_j, s_k$ בעזרת $\sigma_z$ במיקום המתאים.
+
+\textbf{תוצאה עבור ערכים עצמיים:}
+אם $\lambda_+, \lambda_-$ הם הערכים העצמיים של $M$:
+\[
+\langle s_j s_k \rangle = \left( \frac{\lambda_-}{\lambda_+} \right)^{k-j} + \left( \frac{\lambda_-}{\lambda_+} \right)^{N-(k-j)}
+\]
+
+\textbf{קירוב למרחקים קטנים (אורך קורלציה):}
+כאשר $k-j \ll N$ (כלומר, המרחק בין הספינים קטן יחסית לאורך השרשרת), אפשר לקרב את הקורלציה בין ספינים כך:
+\[
+\langle s_j s_k \rangle \approx \left[ \tanh(\beta J) \right]^{k-j}
+\]
+
+\textbf{אורך קורלציה:}
+בפרט, עבור טמפרטורות נמוכות (כלומר, $\beta J \gg 1$), הקורלציה דועכת בצורה מעריכית עם המרחק:
+\[
+\langle s_j s_k \rangle \sim e^{-(k-j)/\xi}\qquad \xi = -\frac{1}{\log \tanh(\beta J)}
+\]
+כאשר $\xi$ הוא אורך הקורלציה. עבור טמפרטורה נמוכה במיוחד, מתקבל בקירוב 
+$\xi \approx \frac{1}{2} e^{2\beta J}$.
+}{0.46}\end{mytikzbox}
+\begin{mytikzbox}{קירוב שדה ממוצע - מודל איזינג}{
+מערכת עם אינטראקציה של שכנים קרובים, כלומר מהצורה ${H}_{\mathrm{int}}=-J\sum_{\langle i,j\rangle}s_{i}s_{j}$.
+נגדיר את המרחק מהממוצע על ידי $\delta s_{i}=s_{i}-m$. נזמן ב-$d$ את המימד וב-$z=2d$ את דרגת החופש של כל קודקוד (מספר השכנים הקרובים).
+
+\textbf{פונקציית חלוקה:}
+$$Z_{G}=\mathrm{tr}\left( \exp\left\{ \beta\left( J\sum_{\langle i,j\rangle}s_{i}s_{j} + B\sum_{i}s_{i} \right) \right\} \right)$$
+$$\!\!\!\!\!=\!\mathrm{tr}\exp\!\left\{\!\!J\beta\!\sum_{\langle i,j\rangle}\!\left(\delta s_{i}\delta s_{j}\!+\!m\left(\delta s_{i}\!+\!\delta s_{j}\right)\!\!+\!\!m^{2}\right)\!\!+\!\!\beta B\sum_{i}\!\delta s_{i}\!\!+\!\!\beta B N m\!\!\right\}$$
+
+\textbf{הנחה שדה ממוצע:}
+$$\left\langle\delta{s_{i}}\delta{s_{j}}\right\rangle=0\Rightarrow \mathrm{tr}\left(\delta s_{i}\delta s_{j}e^{-\beta(E-B m)}\right)\approx 0$$
+
+\textbf{פונקציית חלוקה מקורבת}: כיוון שמתקיים $\sum_{\langle i,j \rangle }{1=\frac{N z}{2}}$:
+$$Z_{G}^{\mathsf{M F}}=\exp\left\{-{\frac{\beta J N z m^{2}}{2}}\right\}\cdot(2\cosh\left(\beta B_{\mathsf{M F}}\right))^{N}$$
+
+משוואת משוואה עצמית למגנטיזציה:
+$$m=\frac{1}{\beta N}\frac{\partial\log Z_{G}}{\partial B}=\operatorname{tanh}\left(\beta\left(B+J m z\right)\right)$$
+}{0.46}
+\end{mytikzbox}
+\begin{mytikzbox}{טמפרטורה קריטית ומעבר פאזה במודל איזינג}{
+נסתכל על משוואת המגנטיזציה בשדה אפס ($B=0$):
+\[
+m = \tanh(\beta J z m)
+\]
+קיים טמפרטורה קריטית $T_c = \frac{Jz}{k_B}$ כך שאם $T > T_c$ הפתרון היחיד הוא $m=0$, ואם $T < T_c$ יש פתרון נוסף $m \neq 0$.
+
+\textbf{הוכחה:} נפתח את הטנגנס היפרבולי בטור טיילור:
+\[\!\!\!\!\!
+m \!\approx\! \beta J z m - \frac{(\beta J z m)^3}{3} + \cdots
+\!\Rightarrow\!
+m \!\left[ \!(\beta J z \!-\! 1) \!- \!\frac{(\beta J z)^3 m^2}{3} \!+\! \cdots \right] \!=\! 0
+\]
+לכן $m=0$ תמיד פתרון, ויש פתרון נוסף אם ורק אם:
+\[
+\beta J z - 1 > 0 \implies T < T_c = \frac{Jz}{k_B}
+\]
+ מעבר הפאזה מתרחש כאשר מתקבל פתרון לא טריוויאלי $m \neq 0$.
+
+\textbf{הסוספטביליות:}
+\[
+\chi = \left. \frac{\partial m(B)}{\partial B} \right|_{B=0}=\beta \frac{1 + Jz\chi}{\cosh^2(Jz m \beta)}
+= \frac{\beta}{\cosh^2(Jz m \beta) - Jz\beta}
+\]
+
+\textbf{טענה:} עבור $T<T_c$:
+\[
+m = \sqrt{ 3 \left( \frac{T}{T_c} \right)^2 \frac{T_c - T}{T_c} }
+\]
+ועבור הסוספטביליות:
+\[
+\chi\big|_{T\to T_c^-} = \frac{1}{2k_B (T_c - T)} + O((T_c - T)^0)
+\]
+ובכתיבה חזקתית: $\chi \sim (T_c - T)^{-\gamma}$, כאשר כאן $\gamma_{MF} = 1$.
+}{0.46}\end{mytikzbox}
+\begin{mytikzbox}{תורת לנדאו למעברי פאזה}{
+% פיתוח לנדאו של הפוטנציאל החופשי
+\textbf{פיתוח לנדאו:}
+הפוטנציאל החופשי לחלקיק $f = \frac{F}{N}$ נפתח כטור סביב $m=0$:
+\[
+f(T, m) = f_0(T) + \frac{1}{2} a(T) m^2 + \frac{1}{4} b m^4 - h m + \cdots
+\]
+כאשר $b > 0$ ו-$a(T) \approx a_0 (T - T_c)$ עם $a_0 > 0$.
+
+\textbf{מציאת טמפרטורה קריטית:}
+בשדה $h=0$, תנאי מינימום:
+\[
+\frac{\partial f}{\partial m} = 0 \implies a(T) m + b m^3 = 0
+\]
+הפתרונות: $m=0$ תמיד, ו-$m = \pm \sqrt{ -a(T)/b }$ אם $a(T) < 0$ כלומר $T < T_c$.
+
+\textbf{התנהגות סביב $T_c$:}
+ליד $T_c$:
+\[
+m(T) = \pm \sqrt{ \frac{a_0 (T_c - T)}{b} }
+\]
+ולכן האקספוננט הקריטי הוא $\beta = \frac{1}{2}$.
+
+\textbf{סיווג מעברי פאזה עבור פרמטר סדר $\xi$:}
+\includegraphics[scale=0.5]{Phase Transitions.pdf}
+}{0.46}\end{mytikzbox}
+\begin{mytikzbox}{ גז אידיאלי קלאסי}{
+\textbf{פונקציית החלוקה:}
+לגז אידיאלי קלאסי של $N$ חלקיקים בלתי תלויים בנפח $V$:
+\[
+Z_F(T,V,N) = \frac{1}{N! h^{3N}} \int \prod_{i=1}^N d^3\mathbf{p}_i\, d^3\mathbf{q}_i\, e^{-\beta \frac{\mathbf{p}_i^2}{2m}}
+\]
+האינטגרל במרחב התנע:
+\[
+\int d^3\mathbf{p}\, e^{-\beta \frac{\mathbf{p}^2}{2m}} = (2\pi m k_B T)^{3/2}
+\]
+ולכן:
+\[
+Z_F(T,V,N) = \frac{1}{N!} \left( \frac{V}{\lambda^3} \right)^N
+\]
+כאשר $\lambda = \frac{h}{\sqrt{2\pi m k_B T}}$ היא אורך הגל התרמי.
+
+\textbf{אנרגיה ממוצעת:}
+\[
+E = -\frac{\partial \ln Z_F}{\partial \beta} = \frac{3}{2} N k_B T
+\]
+
+\textbf{לחץ:}
+\[
+P = k_B T \frac{N}{V}
+\]
+שזה משוואת המצב של גז אידיאלי.
+}{0.46}
+\end{mytikzbox}
+\begin{mytikzbox}{אלגוריתם לפיתוח לפלס בטמפרטורות נמוכות}{
+    \vspace{-14pt}
+\begin{enumerate}
+    \item \textbf{כתיבת האינטגרל:}\\
+    נרצה לחשב אינטגרל מהצורה:
+    \[
+    I(\beta) = \int_{\mathbb{R}^3} e^{ -\beta U(\lvert \mathbf{q} \rvert) } \, \mathrm{d}^3 q
+    \]
+    כאשר $U(q)$ הוא פוטנציאל עם מינימום ב-$q_*$, ו-$\beta \gg 1$ (טמפרטורה נמוכה).
+
+    \item \textbf{רדוקציה רדיאלית:}\\
+    ננצל סימטריה כדורית:
+    \[
+    I(\beta) = 4\pi \int_0^\infty q^2 e^{ -\beta U(q) } \, \mathrm{d}q
+    \]
+
+    \item \textbf{פיתוח טיילור סביב המינימום:}\\
+    נפתח את $U(q)$ סביב $q_*$:
+    \[
+    U(q) = U_0 + U_2 (q - q_*)^2 + U_3 (q - q_*)^3 + U_4 (q - q_*)^4 + \dots
+    \]
+    כאשר $U_0 = U(q_*)$, $U_2 = \frac{1}{2} U''(q_*)$, וכו'.
+
+    \item \textbf{קירוב נקודת אוכף:}\\
+    עבור $\beta \gg 1$, עיקר התרומה לאינטגרל מגיעה מסביבת $q_*$. נבצע שינוי משתנה $x = q - q_*$ ונפתח את $q^2 \approx q_*^2 + 2q_* x + x^2$:
+    \[
+    I(\beta) \approx 4\pi e^{ -\beta U_0 } \int_{-\infty}^{\infty} (x + q_*)^2 \exp \left( -\beta U_2 x^2 - \beta U_3 x^3 - \dots \right) \mathrm{d}x
+    \]
+
+    \item \textbf{פיתוח האינטגרל לגאוסיאני + תיקונים:}\\
+    נחשב את האינטגרל הגאוסיאני (עבור $U_3=U_4=0$) ונוסיף תיקונים מסדרים גבוהים לפי הצורך:
+    \[
+    \int_{-\infty}^{\infty} x^n e^{-a x^2} \mathrm{d}x =
+    \begin{cases}
+    \frac{(n-1)!!}{(2a)^{n/2}} \sqrt{ \frac{\pi}{a} } & n \text{ זוגי} \\
+    0 & n \text{ אי-זוגי}
+    \end{cases}
+    \]
+
+    \item \textbf{כתיבת התוצאה הסופית:}\\
+    מקבלים ביטוי מהצורה:
+    \[
+    I(\beta) \approx 4\pi^{3/2} e^{ -\beta U_0 } q_*^2 \xi \left( 1 + A_2 \xi^2 + A_4 \xi^4 + \dots \right)
+    \]
+    כאשר $\xi = \frac{1}{\beta \sqrt{U_2}}$ והמקדם $A_2, A_4$ תלויים בנגזרות הגבוהות של $U$ ב-$q_*$.
+\end{enumerate}\vspace{-14pt}
+}{0.46}
+\end{mytikzbox}\begin{mytikzbox}{דוגמא - פיתוח לפלס בחלקיקים בפוטנצאיל מרכזי}{ המילטוניאן של $N$ חלקיקים בלתי תלויים בפוטנציאל מרכזי:
+\[
+H(\{\mathbf{q}_i, \mathbf{p}_i\}) = \sum_{i=1}^{N} \left[ \frac{\mathbf{p}_i^2}{2m} + U(\lvert \mathbf{q}_i \rvert) \right]
+\]
+\textbf{פונקציית החלוקה:}
+\[
+Z_{F} = \frac{1}{N!} \left( \frac{1}{\lambda^3} \cdot I(\beta) \right)^N,\quad
+I(\beta) = \int_{\mathbb{R}^3} e^{ -\beta U(\lvert \mathbf{q} \rvert) } \, \mathrm{d}^3 q
+\]
+\textbf{תוצאה סופית:}
+\[
+I(\beta) = 4\pi^{3/2} e^{ -\beta U_0 } q_*^2 \xi \left( 1 + A_2 \xi^2 + A_4 \xi^4 + \dots \right)
+\]
+כאשר $\xi = \frac{1}{\beta \sqrt{U_2}}$ וכן $$\!\!A_2 = \frac{8U_2^2 - 24q_*U_2 U_3 + 15q_*^2 U_3^2 - 12 q_*^2 U_2 U_4}{16 q_*^2 U_2^2}\quad\;\; A_4 = \frac{15 U_4}{8 q_*^2 U_2}$$
+\vspace{-14pt}
+}{0.46}
+\end{mytikzbox}
+\begin{mytikzbox}{דוגמא - פוטנציאל הרמוני}{
+\textbf{פוטנציאל הרמוני:} $U(q) = \frac{1}{2} m \omega^2 q^2$
+
+במקרה זה:
+$$q_* = 0 \qquad U_2 = \frac{1}{2} m \omega^2 \qquad U_{n>2} = 0$$
+
+נציב באינטגרל:
+\[
+I(\beta) = 4\pi \int_0^\infty q^2 \exp\left( -\frac{1}{2} \beta m \omega^2 q^2 \right) \mathrm{d}q
+\]
+
+האינטגרל הוא גאוסי (עם חיתוך ב-$q=0$), וידוע ש:
+\[
+\int_0^\infty q^2 e^{-a q^2} \mathrm{d}q = \frac{1}{2} \sqrt{\frac{\pi}{a^3}}
+\]
+לכן,
+\[
+I(\beta) = 4\pi \cdot \frac{1}{2} \sqrt{ \frac{\pi}{ \left( \frac{1}{2} \beta m \omega^2 \right)^3 } }
+= 4\pi \cdot \frac{\sqrt{\pi}}{2} \left( \frac{2}{\beta m \omega^2} \right)^{3/2}
+\]
+}{0.46}
+\end{mytikzbox}
+\begin{mytikzbox}{דוגמא - נוסחת סטרלינג}{
+    נכתוב את העצרת בעזרת פונקצית גמא:
+\[
+N! = \Gamma(N+1) = \int_0^\infty e^{N\log x - x} \, \mathrm{d}x
+\]
+
+נבצע שינוי משתנה $x = Nq$:
+\[
+N! = N e^{N\log N} \int_0^\infty e^{-N U_\Gamma(q)} \, \mathrm{d}q
+\]
+כאשר $U_\Gamma(q) = q - \log q$.
+
+נפתח את $U_\Gamma(q)$ סביב המינימום $q_*=1$:
+\[
+U_\Gamma(q) = 1 + \frac{1}{2}(q-1)^2 - \frac{1}{3}(q-1)^3 + \frac{1}{4}(q-1)^4 + \dots
+\]
+
+נשתמש בקירוב לפלס (נקודת אוכף) עבור $N \gg 1$:
+\[
+N! \approx N^N e^{-N} \sqrt{2\pi N} \left( 1 + \frac{1}{12N} + \dots \right)
+\]
+
+ולכן:
+\[
+\log(N!) \approx N\log N - N + \frac{1}{2}\log(2\pi N) + \frac{1}{12N} + \dots
+\]}{0.46}
+\end{mytikzbox}
+\begin{mytikzbox}{פיתוח טמפרטורה גבוהה}{
+עבור מערכת עם אינטראקציה, כאשר האינטראקציה בין החלקיק ה-$i$ ל-$j$ נתון על ידי $u_{ij}=u(\lvert r_{i}-r_{j} \rvert)$ פונקציית החלוקה תהיה:
+
+$$Z_{N}=\frac{1}{N!\lambda^{3N}}Q_{N}$$
+כאשר:
+$$\!\lambda=\frac{h}{\sqrt{ 2\pi mk_{B}T }} \quad\; Q_{N}=\int_{V^{N}}\!\prod_{1\leq i<j\leq N}e^{-\beta u\left( \mathbf{r}_{i}-\mathbf{r}_{j} \right)}d^{3}\mathbf{r}_{1}\cdot\cdot\cdot d^{3}\mathbf{r}_{N}$$
+
+\textbf{כתיבה בעזרת פונקציות מייר:}
+	 נגדיר פונקציית מייר $f_{i j}:=e^{-\beta u_{i j}}-1$ אשר קטן בטמפרטורות גובההות. בעזרתו ניתן לכתוב את $Q_{N}$ על ידי סכום על גרפים עם $N$ קודקודים:
+
+$$Q_{N}=\sum_{G}\int_{V^{N}}\prod_{(i,j)\in G}f_{i j}\,\mathrm{d}^{3N}\mathbf{r}$$
+\textbf{חלוקה לרכיבי קשירות:}
+	 ניתן לחלק את הסכימה לרכיבים קשירים ולכתוב את $Q_{N}$ על ידי:
+
+$$Q_{N}=\sum_{\mathrm{partitions}}\Omega^{N}(n_{1},...,n_{N})\prod_{k=1}^{N}(k!b_{k})^{n_{k}}$$
+כאשר $b_{k}$ נקראים מקדמי הקשירות הגושיים ונתון על ידי סכימה על כל הגרפים הקשירים עם $k$ חלקיקים.
+
+$$b_{k}:=\frac{1}{k!V}\int_{V^{k}}\left(\sum_{G\in{\mathcal{C}}_{k}}\prod_{(i,j)\in G}f_{i j}\right)d^{3k}{\bf r}$$
+
+וכן הגודל $\Omega^{N}(n_{1},n_{2},\ldots,n_{N})$ מייצג את מספר הדרכים לסדר $N$ חלקיקים לגושים בגדלים שונים. אם $n_{k}$ זה מספר הגושים בגודל $k$(כך שמתקיים $kn_{k}=N$) אז נקבל:
+
+$$\Omega^{N}(n_{1},n_{2},\ldots,n_{N})=\frac{N!}{\prod_{k=1}^{N}(k!)^{n_{k}}n_{k}!}$$
+}{0.46}
+\end{mytikzbox}
+\begin{mytikzbox}{הפיתוח הויראלי}{
+\textbf{פונקציית החלוקה הגראנד קנונית:}
+\[
+{\mathcal{Z}}_{g}=\sum_{N=0}^{\infty}z^{N}Z_{N}=\exp\left(\sum_{k=1}^{\infty}{\frac{z^{k}b_{k}}{\lambda^{3k}}}\right)\qquad z=e^{\beta \mu}
+\]
+\textbf{גראנד פוטנציאל:}
+\[
+\Phi_{G}=-\frac{1}{\beta}\log{\mathcal{Z}}_{g}=-\frac{1}{\beta}\sum_{k=1}^{\infty}\frac{z^{k}b_{k}}{\lambda^{3k}}
+\]
+\textbf{לחץ וצפיפות:} עבור  ${\bar{b}}_{k}:=\operatorname*{lim}_{V\to\infty}{\frac{b_{k}}{V}}$:
+\[
+P=-\left({\frac{\partial \Phi_{G}}{\partial V}}\right)_{T,\mu}\!\!\!\!=\frac{1}{\beta}\sum_{k=1}^{\infty}\frac{z^{k}\bar{b}_{k}}{\lambda^{3k}}
+\]\[n={\frac{N}{V}}=-{\frac{1}{V}}\left({\frac{\partial \Phi_{G}}{\partial\mu}}\right)=-{\frac{\beta z}{V}}{\frac{\partial \Phi_{G}}{\partial z}}=\sum_{k=1}^{\infty}\frac{k z^{k}\bar{b}_{k}}{\lambda^{3k}}
+\]
+\textbf{פיתוח ויראלי:}
+\[
+P\beta=n+B_{2}n^{2}+B_{3}n^{3}+B_{4}n^{4}+\cdots
+\]
+\textbf{מקדים ראשונים:}
+\[
+B_{2}=-\bar{b}_{2},\qquad B_{3}=4\bar{b}_{2}^{2}-2\bar{b}_{3},\qquad B_{4}=-20\bar{b}_{2}^{3}+18\bar{b}_{2}\bar{b}_{3}-3\bar{b}_{4}
+\]\\[-15pt]
+}{0.46}
+\end{mytikzbox}
+\begin{mytikzbox}{חישוב $B_2$ ודוגמאות}{
+\textbf{ביטוי כללי:}
+\[
+B_{2}=-\frac{1}{2}\int\mathrm{d}^{3}q_{1}\mathrm{d}^{3}q_{2}\left(e^{-\beta U(|q_{1}-q_{2}|)}-1\right)
+\]
+\textbf{כדור קשיח $d$-מימדי:} עבור פוטנציאל מהצורה:$$U(r)=\left\{\begin{array}{l l}{{\infty}}&{{r<q_{*}}}\\ {{0}}&{{r>q_{*}}}\end{array}\right.$$
+    נקבל:
+    $$B_{2}^{(d)}=-{\frac{1}{2}}\int_{\mathbb{R}^{d}}\left(e^{-\beta U(r)}-1\right)\mathrm{d}^{d}r={\frac{1}{2}}\int_{|r|<q_{*}}\mathrm{d}^{d}r=$$
+    $$={\frac{\Omega_{d}}{2}}\int_{0}^{q_{*}}r^{d-1}\mathrm{d}r\;\;\Rightarrow\;\;
+B_{2}^{(d)}=\frac{\Omega_{d}}{2d}q_{*}^{d},
+\quad
+\Omega_{d}=\frac{2\pi^{d/2}}{\Gamma(d/2)}
+$$
+בפרט עבור תחת מימד נקבל - \(B_{2}=\frac{2\pi}{3}q_*^{3}\)
+
+\textbf{פוטנציאל ואן דר וואלס:}
+
+נשתמש בפוטנציאל:
+\[
+U(r) = 
+\begin{cases}
+\infty & r < q_* \\
+- U_* \left( \frac{q_*}{r} \right)^6 & r > q_*
+\end{cases}
+\]
+
+האינטגרל מתפצל:
+\[
+B_2 = -2\pi \left[ \int_0^{q_*} (-1) r^2 \mathrm{d}r + \int_{q_*}^\infty r^2 (e^{\beta U(r)} - 1) \mathrm{d}r \right]
+\]
+
+בטמפרטורות גבוהות ($\beta U_* \ll 1$):
+\[
+e^{\beta U(r)} - 1 \approx \beta U(r)\Rightarrow
+B_2 \approx \frac{2\pi q_*^3}{3} (1 - \beta U_*)
+\]\vspace{-14pt}
+}{0.46}
+\end{mytikzbox}
+% \begin{mytikzbox}{זהויות חשובות במכניקה סטטיסטית}{
+% \textbf{קשרי פלקנר-פלאנק (Fluctuation-Dissipation):}
+% \[
+% \langle (\Delta E)^2 \rangle = k_B T^2 C_V
+% \qquad
+% \langle (\Delta N)^2 \rangle = k_B T \left( \frac{\partial \langle N \rangle}{\partial \mu} \right)_{T,V}
+% \]
+
+% \textbf{קשרי מקסוול:}
+% \[
+% \left( \frac{\partial T}{\partial V} \right)_S = -\left( \frac{\partial P}{\partial S} \right)_V
+% \qquad
+% \left( \frac{\partial T}{\partial P} \right)_S = \left( \frac{\partial V}{\partial S} \right)_P
+% \]
+% \[
+% \left( \frac{\partial S}{\partial V} \right)_T = \left( \frac{\partial P}{\partial T} \right)_V
+% \qquad
+% \left( \frac{\partial S}{\partial P} \right)_T = -\left( \frac{\partial V}{\partial T} \right)_P
+% \]
+
+% \textbf{קשרי גיבס-דוהם:}
+% \[
+% S\,dT - V\,dP + N\,d\mu = 0
+% \]
+
+% \textbf{קשרי קירכהוף (חוקי מעבר חום):}
+% \[
+% C_P - C_V = T \left( \frac{\partial P}{\partial T} \right)_V \left( \frac{\partial V}{\partial T} \right)_P
+% \]
+% \textbf{חוק החלוקה השווה:}
+% \[
+% \frac{1}{2} C_V = \frac{1}{2} \left( \frac{\partial U}{\partial T} \right)_V = \frac{1}{2} \left( \frac{\partial S}{\partial V} \right)_T
+% \]
+% }{0.46}
+% \end{mytikzbox}
+\begin{mytikzbox}{דיאגרמות 1PI ומשפט מייר-מייר}{
+\textbf{משפט מייר-מייר:}
+\[
+B_{\ell}=(1-\ell)\bar{d}_{\ell}
+\]
+\textbf{דוגמאות:}
+\[
+B_{2}=-\bar{d}_{2}
+\qquad
+B_{3}=-2\bar{d}_{3}
+\]
+כאשר $\bar{d}_{\ell}$ - סכום על דיאגרמות 1PI - הגרפים  הקשירים עם N קודקודים כך שאם מסירים קודקוד נשאר קשיר.
+\[
+\bar{d}_{\ell}=\frac{1}{\ell!V}\int_{V^{\ell}}\left(\sum_{G\in\mathcal{D}_{\ell}}\prod_{(i,j)\in G}f_{i j}\right)\,\mathrm{d}^{3\ell}\mathbf{r}
+\]
+\vspace{2pt}
+\textbf{דוגמאות:}
+\\
+עבור $\ell=2$ יש רק גרף אחד - קשר יחיד בין שני הקודקודים. לכן:
+\[
+\bar{d}_2 = \frac{1}{2!V} \int_{V^2} f_{12}\, \mathrm{d}^3\mathbf{r}_1\, \mathrm{d}^3\mathbf{r}_2
+\]
+מסימטריה להזזות אפשר לקבע $\mathbf{r}_1=0$ ולקבל:
+\[
+\bar{d}_2 = \frac{1}{2} \int_{\mathbb{R}^3} f(r)\, \mathrm{d}^3\mathbf{r}
+\]
+ולכן $B_2 = (1-2)\bar{d}_2 = -\bar{d}_2$.
+
+\textbf{עבור $\ell=3$:}
+\[\!\!
+\bar{b}_3 \!=\! \frac{1}{3!V} \!\int_{V^3} \!\!\left[ f_{12}f_{23} \!+\! f_{12}f_{13} \!+\! f_{13}f_{23} \!+\! f_{12}f_{23}f_{13} \right] \mathrm{d}^3 r_1\, \mathrm{d}^3 r_2\, \mathrm{d}^3 r_3
+\]
+רק האיבר האחרון הוא גרף 1PI, לכן:
+\[\!\!\!
+\bar{d}_3 = \frac{1}{3!V} \int_{V^3} f_{12}f_{23}f_{13}\, \mathrm{d}^3 r_1\, \mathrm{d}^3 r_2\, \mathrm{d}^3 r_3,
+\;\;
+B_3 = (1-3)\bar{d}_3 = -2\bar{d}_3
+\]\vspace{-14pt}
+}{0.46}
+\end{mytikzbox}
+% \begin{mytikzbox}{התפלגויות סטטיסטיות חשובות}{
+% \textbf{התפלגות בולצמן:}
+% \[
+% P(E) = \frac{1}{Z} e^{-\beta E}
+% \]
+% כאשר $Z = \sum_{\text{micro}} e^{-\beta E}$.
+
+% \textbf{התפלגות פואסון:}
+% \[
+% P(k; \lambda) = \frac{\lambda^k e^{-\lambda}}{k!}
+% \qquad
+% \langle k \rangle = \lambda
+% \qquad
+% \mathrm{Var}(k) = \lambda
+% \]
+
+% \textbf{התפלגות בינומית:}
+% \[
+% P(k; n, p) = \binom{n}{k} p^k (1-p)^{n-k}
+% \qquad
+% \langle k \rangle = np
+% \qquad
+% \mathrm{Var}(k) = np(1-p)
+% \]
+
+% \textbf{התפלגות גאוסיאנית (נורמלית):}
+% \[
+% P(x) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left( -\frac{(x-\mu)^2}{2\sigma^2} \right)
+% \qquad
+% \langle x \rangle = \mu
+% \qquad
+% \mathrm{Var}(x) = \sigma^2
+% \]
+
+% \textbf{קשר בין התפלגות בינומית לפואסון:}
+% בגבול $n \to \infty$, $p \to 0$, $np = \lambda$ קבוע:
+% \[
+% P_{\text{binom}}(k; n, p) \to P_{\text{Poisson}}(k; \lambda)
+% \]
+% }{0.46}
+% \end{mytikzbox}
+\pagebreak
+\subsection*{מחוץ לשיווי משקל}\unskip
+\begin{mytikzbox}{פונקציות יוצרות, פונקציית יצירת מומנטים וקומולנטים}{
+\textbf{פונקציה יוצרת:}\\
+יהי $X$ משתנה מקרי בדיד. הפונקציה היוצרת היא:
+\[
+G_X(s) = \langle s^X \rangle = \sum_{k=0}^\infty P(X=k) s^k
+\]
+פיתוח טיילור סביב $s=1$ נותן את המומנטים:
+\[
+G_X^{(n)}(1) = \langle X(X-1)\cdots(X-n+1) \rangle = \left\langle \frac{X!}{(X-n)!} \right\rangle
+\]
+
+\textbf{פונקציית יצירת מומנטים:}\\
+מוגדרת עבור משתנה מקרי $X$:
+\[
+M_X(t) = =G(e^z)=\langle e^{tX} \rangle
+\]
+המומנט ה-$n$ מתקבל על ידי גזירה:
+\[
+\langle X^n \rangle = \left. \frac{d^n}{dt^n} M_X(t) \right|_{t=0}
+\]
+
+\textbf{פונקציית יצירת קומולנטים:}\\
+מוגדרת על ידי:
+\[
+K_X(t) = \log M_X(t)
+\]
+הקומולנט ה-$n$ מתקבל על ידי:
+\[
+\kappa_n = \left. \frac{d^n}{dt^n} K_X(t) \right|_{t=0}
+\]
+עבור משתנים בלתי תלויים: הקומולנט של סכום הוא סכום הקומולנטים.
+
+\textbf{פונקציות יוצרות עבור התפלגות גאוסיאנית:}
+יהי $X \sim \mathcal{N}(\mu, \sigma^2)$.
+\[
+G_X(s) = \langle s^X \rangle = \exp\left( \mu \ln s + \frac{1}{2} \sigma^2 (\ln s)^2 \right)
+\]
+
+\[
+M_X(t) = \langle e^{tX} \rangle = \exp\left( \mu t + \frac{1}{2} \sigma^2 t^2 \right)
+\]
+
+\[
+K_X(t) = \log M_X(t) = \mu t + \frac{1}{2} \sigma^2 t^2
+\]\vspace{-10pt}
+}{0.46}
+\end{mytikzbox}
+\begin{mytikzbox}{משוואת לנג'בן}{
+\textbf{משוואת לנג'בן:}
+\[
+ m\dot{v} = -\gamma v + g\eta(t) \qquad \dot{x}=v\]
+כאשר $\eta(t)$ הוא רעש לבן גאוסיאני: 
+$$\langle \eta(t) \rangle = 0\qquad\langle \eta(t)\eta(t') \rangle = 2D\delta(t-t')$$
+
+\textbf{פתרון:}
+\[
+v(t) = e^{-t/\tau_B} v(0) + \frac{1}{m} \int_0^t ds\, e^{-(t-s)/\tau_B} \eta(s)
+\]
+כאשר $\tau_B = m/\gamma$.
+
+\textbf{במקרה של תנועה בראונית (ללא אינרציה):}
+\[
+\gamma \frac{dx}{dt} = \eta(t)
+\]
+}{0.46}
+\end{mytikzbox}
+\begin{mytikzbox}{פורמליזם אינטגרל מסלול}{
+\textbf{רעש לבן גאוסי:} משתנה מקרי $\eta(t)$ עם
+\[
+\langle \eta(t) \rangle = 0,\qquad \langle \eta(t)\eta(s) \rangle = \delta(t-s)
+\]
+והפונקציונאל הסתברות:
+\[
+P[\eta(t)] \propto \exp\left(-\frac{1}{2}\int_0^T \eta^2(t)\,\mathrm{d}t\right)
+\]
+
+\textbf{משוואה סטוכסטית כללית:}
+\[
+\frac{\mathrm{d}v}{\mathrm{d}t} = f(v(t),t) + g(v(t),t)\eta(t)
+\]
+מבודדים את $\eta(t)$:
+\[
+\eta(t) = \frac{\dot{v}(t) - f(v(t),t)}{g(v(t),t)}
+\]
+
+\textbf{פונקציונאל דלתא:} 
+\[
+\delta[F[v]] = \int \mathcal{D}\lambda\, \exp\left(i\int_0^T \lambda(t) F[v](t)\,\mathrm{d}t\right)
+\]
+
+\textbf{התפלגות מסלולים:}
+\[
+P[v(t)] = \int \mathcal{D}\eta\, \delta\left(\dot{v}(t) - f(v(t),t) - g(v(t),t)\eta(t)\right) P[\eta]
+\]
+\[
+\!\!\!\!\!=\!\!\! \int \!\!\mathcal{D}\lambda\, \exp\!\!\left(\!-\frac{1}{2}\!\!\int\limits_0^T \!\!\lambda^2(t)g^2(v(t),t)\,\mathrm{d}t \!+\!i\!\!\int\limits_0^T \!\!\lambda(t)(\dot{v}(t)\!-\!f(v(t),t))\,\mathrm{d}t\right)
+\]
+
+\textbf{תוצאה סופית:}
+\[
+P[v(t)] \propto \exp\left(-\frac{1}{2}\int_0^dT \left(\frac{\dot{v}(t)-f(v(t),t)}{g(v(t),t)}\right)^2 \mathrm{d}t\right)
+\]
+}{0.46}
+\end{mytikzbox}
+\begin{mytikzbox}{פיתוח קרמר-מוייל}{
+\textbf{פיתוח Kramers–Moyal} מתאר את האבולוציה של צפיפות ההסתברות $P_v^t(v)$ עבור תהליך מרקובי רציף בזמן:
+
+\[
+\frac{\partial P_v^t(v)}{\partial t} = \sum_{n=1}^{\infty} \frac{(-1)^n}{n!} \cdot \frac{\partial^n}{\partial v^n} \left[ D_n(v,t)\,P_v^t(v) \right]
+\]
+
+כאשר המקדמים $D_n(v,t)$ מוגדרים על ידי:
+
+\[
+D_n(v,t) = \lim_{\Delta t \to 0} \frac{ \left\langle \left( V(t+\Delta t) - v \right)^n \right\rangle_{V(t)=v} }{ \Delta t }
+\]
+
+כלומר, $D_n$ הוא רגע השינוי ה-$n$ של $v$ ליחידת זמן, בתנאי שהמערכת הייתה ב-$v$ בזמן $t$.
+
+\textbf{מקרה פרטי: משוואת פוקר פלאנק}  
+אם מתקיים $D_n = 0$ לכל $n > 2$, נקבל את משוואת פוקר פלאנק:
+
+\[
+\frac{\partial P_v^t(v)}{\partial t} = 
+- \frac{\partial}{\partial v} \left[ D_1(v,t)\,P_v^t(v) \right] 
++ \frac{1}{2} \cdot \frac{\partial^2}{\partial v^2} \left[ D_2(v,t)\,P_v^t(v) \right]
+\]
+
+כאשר:
+\[\!\!
+D_1 = \lim_{\Delta t \to 0} \frac{ \left\langle V(t+\Delta t) - v \right\rangle }{ \Delta t }
+\quad
+D_2 = \lim_{\Delta t \to 0} \frac{ \left\langle \left( V(t+\Delta t) - v \right)^2 \right\rangle }{ \Delta t }
+\]
+}{0.46}
+\end{mytikzbox}
+\begin{mytikzbox}{פוקר-פלאנק עבור לנג'בן כללי}{
+\textbf{משוואת לנג'בן:}
+\[
+\gamma \frac{dx}{dt} = F(x) + \eta(t)
+\qquad
+\langle \eta(t) \rangle = 0,\;
+\langle \eta(t)\eta(t') \rangle = \Lambda \delta(t-t')
+\]
+
+\textbf{פוקר-פלאנק:}
+\[
+\frac{\partial P}{\partial t} = \frac{1}{2} \frac{\Lambda}{\gamma^2} \frac{\partial^2 P}{\partial x^2}
+- \frac{1}{\gamma} \frac{\partial}{\partial x} [F(x) P]
+\]
+
+\textbf{ריבוי משתנים:}
+\[
+\gamma_i \frac{dx_i}{dt} = F_i(\vec{x}) + \eta_i(t)
+\qquad
+\langle \eta_i(t)\eta_j(t') \rangle = \Lambda_i \delta_{ij} \delta(t-t')
+\]
+\[
+\frac{\partial P}{\partial t} = \sum_{i=1}^N \left[
+\frac{1}{2} \frac{\Lambda_i}{\gamma_i^2} \frac{\partial^2 P}{\partial x_i^2}
+- \frac{1}{\gamma_i} \frac{\partial}{\partial x_i} (F_i P)
+\right]
+\]
+
+\textbf{אבולוציה של ממוצע:}
+\[
+\frac{d}{dt} \langle A(x) \rangle =
+\frac{1}{2} \frac{\Lambda}{\gamma^2} \left\langle \frac{\partial^2 A}{\partial x^2} \right\rangle
++ \frac{1}{\gamma} \left\langle F(x) \frac{\partial A}{\partial x} \right\rangle
+\]
+
+\textbf{אבולוציה של ווריאנס:}
+\[
+\frac{d}{dt} \langle A^2(x) \rangle =
+\frac{1}{2} \frac{\Lambda}{\gamma^2} \left\langle \frac{\partial^2 A^2}{\partial x^2} \right\rangle
++ \frac{1}{\gamma} \left\langle F(x) \frac{\partial A^2}{\partial x} \right\rangle
+\]
+}{0.46}
+\end{mytikzbox}
+\begin{mytikzbox}{פתרון סטציונרי של משוואת פוקר-פלאנק}{
+הפתרונות הסטציונריים מקיימים:
+\[
+0=\frac12\frac{\Lambda}{\gamma^{2}}\frac{d^{2}}{d x^{2}}P\left(x\right)-\frac1{\gamma}\frac d{d x}\left[P\left(x\right)F\left(x\right)\right]
+\]
+נסדר מחדש:
+\[
+\frac{d}{d x}\left[P\left(x\right)F\left(x\right)\right]=\frac{1}{2}\frac{\Lambda}{\gamma}\frac{d^{2}}{d x^{2}}P\left(x\right)
+\]
+ניקח אינטגרל:
+\[
+P\left(x\right)F\left(x\right)=\frac{1}{2}\frac{\Lambda}{\gamma}\frac{d}{d x}P\left(x\right)+C
+\]
+כיוון ש-$P(x)\xrightarrow{x\to \pm \infty}0$ ו-$P'(x)\xrightarrow{x\to \pm \infty}0$ נקבל כי $C=0$:
+\[
+P\left(x\right)F\left(x\right)=\frac{1}{2}\frac{\Lambda}{\gamma}\frac{d P}{d x}
+\]
+זו משוואה ספרבילית:
+\[
+\int F\left(x\right)d x=\frac{1}{2}\frac{\Lambda}{\gamma}\int\frac{1}{P}d P=\frac{1}{2}\frac{\Lambda}{\gamma}\ln\left(Z P\right)
+\]
+ולכן:
+\[
+P\left(x\right)=\frac{1}{Z}e^{\frac{2\gamma}{\Lambda}\int F(x)\,dx}
+\]
+אם $F(x) = -\frac{dU}{dx}$ (כלומר כוח משמר):
+\[
+P\left(x\right)=\frac{1}{Z}e^{-\frac{2\gamma}{\Lambda}U(x)}
+\]
+שזה התפלגות בולצמן תחת הזיהו $\frac{\Lambda}{2\gamma}=k_{B}T$.
+}
+{0.46}
+\end{mytikzbox}
+\begin{mytikzbox}{חלקיק ב-\(d\) מימדים בפוטנציאל הרמוני: פוקר-פלאנק}{
+נתונה המשוואת לנג'וון מרוסן יתר עם פוטנציאל הרמוני $U=\frac{1}{2}k|\vec{x}|^2$:
+\[
+\gamma \frac{d\vec{x}}{dt} = -k\vec{x} + \vec{\eta}(t)
+\]
+כאשר $\langle \eta_i(t) \eta_j(t') \rangle = \Lambda \delta_{ij} \delta(t-t')$. נתון כי החלקיק מתחיל במיקום $\vec{x}_0$ בזמן $t=0$.
+
+\textbf{1. נכתוב את פוקר-פלאנק:} 
+$$\frac{\partial}{\partial t}P\left(\vec{x},t\right)=\sum_{i=1}^{d}\left(\frac{1}{2}\frac{\Lambda}{\gamma^{2}}\frac{\partial^{2}}{\partial x_{i}^{2}}P\left(\vec{x},t\right)+\frac{k}{\gamma}\frac{\partial}{\partial x_{i}}\left[x_{i}P\left(\vec{x},t\right)\right]\right)$$
+\[\Rightarrow\;\;
+\frac{\partial}{\partial t} P(\vec{x}, t) = \frac{1}{2} \frac{\Lambda}{\gamma^2} \nabla^2 P + \frac{k}{\gamma} \nabla \cdot (\vec{x} P)
+\]
+
+\textbf{2. נכתוב את הפונקציה יוצרת מומנטים:} ראינו כי אם נכפיל בפונקציה מרחבית $A(\vec{x})$ ונבצע אינטרקציה על המרחב:
+$$\frac{\partial}{\partial t}\left\langle A\left(\vec{x}\right)\right\rangle=\frac{1}{2}\frac{\Lambda}{\gamma^{2}}\left\langle\nabla^{2}A\right\rangle-\frac{k}{\gamma}\left\langle\vec{x}\cdot\vec{\nabla}A\right\rangle$$
+נשתמש בפונקציה $A(\vec{x})=e^{\vec{z} \cdot \vec{x}}=M$:
+\[
+M(\vec{z}, t) = \langle e^{\vec{z} \cdot \vec{x}} \rangle = \int d^d x\, e^{\vec{z} \cdot \vec{x}} P(\vec{x}, t)
+\]
+מקיימת:
+\[
+\frac{\partial M}{\partial t} = -\frac{k}{\gamma} \vec{z} \cdot \nabla_{\vec{z}} M + \frac{1}{2} \frac{\Lambda}{\gamma^2} |\vec{z}|^2 M
+\]
+עם תנאי התחלה $M(\vec{z},0) = e^{\vec{z}\cdot\vec{x}_0}$.
+
+\textbf{3. הניחוש:} ראינו שניחוש טוב הוא גאוסיאן. נניח $M(\vec{z}, t) = \exp\left( \vec{A}(t)\cdot\vec{z} + B(t)|\vec{z}|^2 \right)$.
+נציב ונקבל:
+\[
+\vec{A}(t) = \vec{x}_0 e^{-kt/\gamma}
+\qquad
+B(t) = \frac{\Lambda}{2k\gamma}(1 - e^{-2kt/\gamma})
+\]
+ולכן:
+\[
+M(\vec{z}, t) = \exp\left[ \vec{z} \cdot \vec{x}_0 e^{-kt/\gamma} + \frac{\Lambda}{2k\gamma} (1 - e^{-2kt/\gamma}) |\vec{z}|^2 \right]
+\]
+כלומר, $M$ היא פונקציה יוצרת של גאוסיאן רב-ממדי.
+
+\textbf{ממוצע ווריאנס:}
+\[
+\langle \vec{x}(t) \rangle = \vec{x}_0 e^{-kt/\gamma}
+\qquad
+\mathrm{Var}(x_i) = \frac{\Lambda}{2k\gamma} (1 - e^{-2kt/\gamma})
+\]
+
+\textbf{התפלגות ההסתברות:}
+\[
+P(\vec{x}, t) = \frac{1}{[2\pi \sigma^2(t)]^{d/2}} \exp\left( -\frac{|\vec{x} - \vec{x}_0 e^{-kt/\gamma}|^2}{2\sigma^2(t)} \right)
+\]
+\[
+\sigma^2(t) = \frac{\Lambda}{2k\gamma} (1 - e^{-2kt/\gamma})
+\]
+
+\textbf{גבול $t\to\infty$:} מקבלים התפלגות בולצמן:
+\[
+P_{\mathrm{eq}}(\vec{x}) \propto \exp\left( -\frac{k|\vec{x}|^2}{\Lambda/(2\gamma)} \right)
+\]
+}{0.46}
+\end{mytikzbox}
+\pagebreak
+\input{Algebra}
+\end{flushright}
+\end{multicols*}
+\end{document}
+

@@ -1,0 +1,107 @@
+
+\subsection*{אלגברה} \unskip
+ \begin{mytikzbox}{ טריגונומטריה}{
+\textbf{סכום זוויות:}
+\begin{gather*}\sin(a\pm b) = \sin(a)\cos(b)\pm \cos(a)\sin(b) \\
+\cos(a\pm b)=\cos(a)\cos(b)\mp \sin(a)\sin(b)\end{gather*}
+
+\textbf{מכפלת פונקציות:}
+\begin{gather*}\cos(a)\cos(b)=\frac{1}{2}\left[ \cos(a+ b)+\cos(a-b) \right] \\
+\sin(a)\sin(b)=\frac{1}{2}[\cos(a- b)-\cos(a+b)] \\
+\cos(a)\sin(b)=\frac{1}{2}[\sin(a+ b)+\sin(a-b)]\end{gather*}
+
+\textbf{בעזרת מרוכבים}
+\begin{gather*}
+    \sin(z) = \frac{e^{iz}-e^{-iz}}{2i}\qquad \cos(z) = \frac{e^{iz}+e^{-iz}}{2}\\
+    \cosh(x)=\cos(ix)\qquad \sinh(x)=-i\sin(ix)
+\end{gather*}
+
+ \textbf{זהיות זווית כפולה}
+$$\cos(2x)=\cos^2 (x) - \sin^2 (x)\quad \sin (2x) = 2\sin (x)\cos(x)$$
+
+\textbf{זהיות חצי זווית}
+ \begin{gather*}\sin\left(\frac \theta2\right)=\pm\sqrt{\frac{1-\cos \theta}2}\quad\cos\left(\frac \theta2\right)=\pm\sqrt{\frac{1+\cos \theta}2}\\
+ \tan\left(\frac \theta2\right)=\pm\sqrt{\frac{1-\cos \theta}{1+\cos \theta}}=\frac{\sin \theta}{1+\cos \theta}=\frac{1-\cos \theta}{\sin \theta}
+ \end{gather*}
+ \vspace{-10pt}
+}{0.46}
+    \end{mytikzbox}
+    \begin{mytikzbox}{חזקות של פונקציות טריגונומרטיות}{
+    \vspace{-7pt}
+\begin{gather*}
+\cos^2 (x) = \frac{1}{2} + \frac{1}{2}\cos(2x)\quad \sin^2 (x) = \frac{1}{2} - \frac{1}{2}\cos(2x)
+\\
+ \cos^3 (x) \!=\! \frac{3}{4}\cos(x)\!+\!\frac{1}{4}\cos(3x)\quad \sin^3 (x) \!=\! \frac{3}{4}\sin(x) \!-\! \frac{1}{4}\sin(3x)
+\end{gather*}\vspace{-12pt}
+}{0.46}
+    \end{mytikzbox}
+    \begin{mytikzbox}{נגזרת פונקציונאלית}{
+        עבור $J[f]=\int_{a}^{b}\mathcal{L}{\big(}x,f(x),f^{\prime}(x){\big)}\,\mathrm{d}x$ נקבל:
+$$\frac{\delta J}{\delta f(x)}=\frac{\partial{\cal L}}{\partial f}(x)\;-\;\frac{\mathrm{d}}{\mathrm{d}x}\:\frac{\partial{\cal L}}{\partial f^{\prime}}(x)$$
+עבור $J[f]=\int\!\mathcal{L}\bigl(x,f(x)\bigr)\,\mathrm{d}x$ נקבל:
+$$\frac{\delta J}{\delta f(y)}\;=\;\frac{\partial{\cal L}}{\partial f}\Big(x=y,\;f(y)\Big)$$ 
+   }{0.46}
+    \end{mytikzbox}
+    \begin{mytikzbox}{קואורדינטות ספריות}{
+    \textbf{פרמטריזציה של קואורדינטות ספריות:}
+$$
+    x = r \sin\theta \cos\phi \qquad
+    y = r \sin\theta \sin\phi \qquad
+    z = r \cos\theta $$ 
+    \textbf{טווחי משתנים:}
+    \[
+    r \geq 0,\quad 0 \leq \theta \leq \pi,\quad 0 \leq \phi < 2\pi
+    \]
+
+    \textbf{אלמנט נפח:}
+    \[
+    \mathrm{d}^3\mathbf{r} = r^2 \sin\theta\, \mathrm{d}r\, \mathrm{d}\theta\, \mathrm{d}\phi
+    \]
+    }{0.46}
+    \end{mytikzbox}
+    \begin{mytikzbox}{אינטגרלים}{
+    \vspace{-6pt}
+\begin{gather*}
+\int  xe^{ax} \, \mathrm{d}x=\frac{e^{ax}}{a}\left( x-\frac{1}{a} \right) \qquad \int x^2e^{ax} \, \mathrm{d}x =\frac{e^{ax}}{a}\left( x-\frac{1}{a} \right) \\
+\int x\cos(ax) \, \mathrm{d}x = \frac{\cos(ax)}{a^2}+\frac{x\sin(ax)}{a} \\
+\int x \sin(ax)dx  \, \mathrm{d}x= \frac{\sin(ax)}{a^2}-\frac{x\cos(ax)}{a}  \\
+\int x^2\cos(ax) \, \mathrm{d}x = \frac{2x}{a^2} \cos(ax)+\left( \frac{x^2}{a} -\frac{2}{a^3} \right)\sin(ax) \\
+\int x^2 \sin (ax) \, \mathrm{d}x = \frac{2x}{a^2}\sin(ax)+\left( \frac{2}{a^3}-\frac{x^2}{a} \right)\cos(ax) \\
+\int \sin(ax)\cos(bx) \, \mathrm{d}x = - \frac{\cos[(a-b)x]}{2(a-b)}-\frac{\cos[(a+b)x]}{2(a+b)} \\
+\int \cos(ax)\cos(bx) \mathrm{d}x = \frac{\sin[(a-b)x]}{2(a-b)} + \frac{\sin[(a+b)x]}{2(a+b)}\\
+\int \sin(ax)\sin(bx) \mathrm{d}x = \frac{\sin[(a-b)x]}{2(a-b)} - \frac{\sin[(a+b)x]}{2(a+b)}\\
+\int \sin^n(ax)\cos(ax) \mathrm{d}x = \frac{\sin^{n+1}(ax)}{(n+1)a}\\
+\int \cos^n(ax)\cos(ax) \mathrm{d}x = -\frac{\cos^{n+1}(ax)}{(n+1)a}\\
+ \int \displaystyle e^{ax}\sin (bx)\,\mathrm{d}x=\frac{e^{ax}}{a^2+b^2}(a\sin (bx)−b\cos (bx))\\\int \displaystyle ∫e^{ax}\cos (bx)\,\mathrm{d}x=\frac{e^{ax}}{a^2+b^2}(a\cos (bx)+b\sin (bx))
+\end{gather*}
+\vspace{-13pt}
+}{0.46}
+    \end{mytikzbox}
+    \begin{mytikzbox}{אינטגרלים מסויימים}{
+\vspace{-7pt}
+\begin{gather*}\int_{-\infty}^\infty e^{-\alpha x^2} \, \mathrm{d}x= \sqrt{ \frac{\pi}{\alpha} }
+\qquad 
+\int_{-\infty}^{\infty}\!\!\!e^{-\alpha x^{2}+i\beta x}\mathrm{d}x=\sqrt{\frac{\pi}{\alpha}}e^{-\frac{\beta^{2}}{4\alpha}}  \\
+\int_0^\infty\!\!\!\!\!\! e^{-ax}\cos(bx) \;\mathrm{d}x = \frac{a}{a^2 + b^2}\;\;\int_0^\infty\!\!\!\!\!\! e^{-ax}\sin(bx) \;\mathrm{d}x = \frac{b}{a^2 + b^2}\\
+\int_0^{\pi/2} \sin^2(x)=\int_0^{\pi/2} \cos^2(x)= \frac{\pi}{4}\quad
+\int_{-\pi/2}^{\pi/2} \cos\left(x\right) \mathrm{d}x = 2\quad 
+\\
+\frac{\mathrm{d}}{\mathrm{d}x}\int_{a(x)}^{b(x)} f(x) \, \mathrm{d}x =f(b(x))\cdot b'(x)-f(a(x))a'(x)
+\end{gather*}
+\vspace{-15pt}
+}{0.46}
+    \end{mytikzbox}
+    \begin{mytikzbox}{מדרים בסיסיים}{
+    \vspace{-10pt}
+    \begin{gather*}
+\ddot{Y}+\lambda^2 Y=0 \Rightarrow Y=A\sin\left( \lambda x \right)+B\cos\left( \lambda x \right) \\
+\ddot{Y}\!-\!\lambda^2 Y\!=\!0\!\!\Rightarrow\!\! Y\!=\!A\sinh\left( \lambda x \right)\!+\!B\sinh\left( \lambda x \right)\!=\!Ce^{\lambda x}\!\!+\!De^{-\lambda x} 
+\\
+\dot{Y}+\lambda Y = 0 \Rightarrow Y= Ae^{\lambda x}
+\\
+\ddot{Y}+\lambda =0\Rightarrow Y=-\frac{\lambda}{2} x^2+Ax+B\\
+r^2R''+rR'-\lambda^2 = 0\Rightarrow R = Ar^{\lambda}+Br^{-\lambda}\\
+\!\!y'\!+\!P(x)y \!=\! Q(x) \!\Rightarrow\! y \!=\! e^{-\int P(x)\,\mathrm{d}x}\left( \int e^{\int P(x)\,\mathrm{d}x}Q(x)\,\mathrm{d}x + C \right)
+\end{gather*}\vspace{-13pt}
+}{0.46})
+    \end{mytikzbox}
