@@ -1,0 +1,267 @@
+\subsection*{Algebra} \unskip
+\begin{mytikzbox}{Trigonometry}{
+\textbf{Angle addition formulas:}
+\begin{gather*}
+\sin(a\pm b)=\sin(a)\cos(b)\pm\cos(a)\sin(b) \\
+\cos(a\pm b)=\cos(a)\cos(b)\mp\sin(a)\sin(b)
+\end{gather*}
+
+\textbf{Product-to-sum formulas:}
+\begin{gather*}
+\cos(a)\cos(b)=\frac{1}{2}\left[\cos(a+b)+\cos(a-b)\right] \\
+\sin(a)\sin(b)=\frac{1}{2}\left[\cos(a-b)-\cos(a+b)\right] \\
+\cos(a)\sin(b)=\frac{1}{2}\left[\sin(a+b)+\sin(a-b)\right]
+\end{gather*}
+
+\textbf{Using complex exponentials:}
+\begin{gather*}
+\sin(z)=\frac{e^{iz}-e^{-iz}}{2i}
+\qquad
+\cos(z)=\frac{e^{iz}+e^{-iz}}{2} \\
+\cosh(x)=\cos(ix)
+\qquad
+\sinh(x)=-i\sin(ix)
+\end{gather*}
+
+\textbf{Double-angle identities:}
+\[
+\cos(2x)=\cos^2(x)-\sin^2(x)
+\qquad
+\sin(2x)=2\sin(x)\cos(x)
+\]
+
+\textbf{Half-angle identities:}
+\begin{gather*}
+\sin\left(\frac{\theta}{2}\right)
+=\pm\sqrt{\frac{1-\cos\theta}{2}}
+\qquad
+\cos\left(\frac{\theta}{2}\right)
+=\pm\sqrt{\frac{1+\cos\theta}{2}} \\
+\tan\left(\frac{\theta}{2}\right)
+=\pm\sqrt{\frac{1-\cos\theta}{1+\cos\theta}}
+=\frac{\sin\theta}{1+\cos\theta}
+=\frac{1-\cos\theta}{\sin\theta}
+\end{gather*}
+\vspace{-10pt}
+}{0.46}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Powers of Trigonometric Functions}{
+\vspace{-7pt}
+\begin{gather*}
+\cos^2(x)=\frac{1}{2}+\frac{1}{2}\cos(2x)
+\qquad
+\sin^2(x)=\frac{1}{2}-\frac{1}{2}\cos(2x)
+\\
+\cos^3(x)=\frac{3}{4}\cos(x)+\frac{1}{4}\cos(3x)
+\qquad
+\sin^3(x)=\frac{3}{4}\sin(x)-\frac{1}{4}\sin(3x)
+\end{gather*}
+\vspace{-12pt}
+}{0.46}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Functional Derivative}{
+For
+$J[f]=\int_{a}^{b}\mathcal{L}\bigl(x,f(x),f'(x)\bigr)\,\mathrm{d}x$,
+we obtain:
+\[
+\frac{\delta J}{\delta f(x)}
+=
+\frac{\partial\mathcal{L}}{\partial f}(x)
+-
+\frac{\mathrm{d}}{\mathrm{d}x}
+\frac{\partial\mathcal{L}}{\partial f'}(x)
+\]
+
+For
+$J[f]=\int\mathcal{L}\bigl(x,f(x)\bigr)\,\mathrm{d}x$,
+we obtain:
+\[
+\frac{\delta J}{\delta f(y)}
+=
+\frac{\partial\mathcal{L}}{\partial f}
+\Bigl(x=y,f(y)\Bigr)
+\]
+}{0.46}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Spherical Coordinates}{
+\textbf{Spherical-coordinate parametrization:}
+\[
+x=r\sin\theta\cos\phi
+\qquad
+y=r\sin\theta\sin\phi
+\qquad
+z=r\cos\theta
+\]
+
+\textbf{Coordinate ranges:}
+\[
+r\geq0,
+\qquad
+0\leq\theta\leq\pi,
+\qquad
+0\leq\phi<2\pi
+\]
+
+\textbf{Volume element:}
+\[
+\mathrm{d}^3\mathbf{r}
+=
+r^2\sin\theta\,
+\mathrm{d}r\,\mathrm{d}\theta\,\mathrm{d}\phi
+\]
+}{0.46}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Integrals}{
+\vspace{-6pt}
+\begin{gather*}
+\int xe^{ax}\,\mathrm{d}x
+=
+\frac{e^{ax}}{a}\left(x-\frac{1}{a}\right)
+\qquad
+\int x^2e^{ax}\,\mathrm{d}x
+=
+\frac{e^{ax}}{a}\left(x-\frac{1}{a}\right)
+\\
+\int x\cos(ax)\,\mathrm{d}x
+=
+\frac{\cos(ax)}{a^2}
++
+\frac{x\sin(ax)}{a}
+\\
+\int x\sin(ax)\,\mathrm{d}x
+=
+\frac{\sin(ax)}{a^2}
+-
+\frac{x\cos(ax)}{a}
+\\
+\int x^2\cos(ax)\,\mathrm{d}x
+=
+\frac{2x}{a^2}\cos(ax)
++
+\left(\frac{x^2}{a}-\frac{2}{a^3}\right)\sin(ax)
+\\
+\int x^2\sin(ax)\,\mathrm{d}x
+=
+\frac{2x}{a^2}\sin(ax)
++
+\left(\frac{2}{a^3}-\frac{x^2}{a}\right)\cos(ax)
+\\
+\int\sin(ax)\cos(bx)\,\mathrm{d}x
+=
+-\frac{\cos[(a-b)x]}{2(a-b)}
+-\frac{\cos[(a+b)x]}{2(a+b)}
+\\
+\int\cos(ax)\cos(bx)\,\mathrm{d}x
+=
+\frac{\sin[(a-b)x]}{2(a-b)}
++
+\frac{\sin[(a+b)x]}{2(a+b)}
+\\
+\int\sin(ax)\sin(bx)\,\mathrm{d}x
+=
+\frac{\sin[(a-b)x]}{2(a-b)}
+-
+\frac{\sin[(a+b)x]}{2(a+b)}
+\\
+\int\sin^n(ax)\cos(ax)\,\mathrm{d}x
+=
+\frac{\sin^{n+1}(ax)}{(n+1)a}
+\\
+\int\cos^n(ax)\cos(ax)\,\mathrm{d}x
+=
+-\frac{\cos^{n+1}(ax)}{(n+1)a}
+\\
+\int e^{ax}\sin(bx)\,\mathrm{d}x
+=
+\frac{e^{ax}}{a^2+b^2}
+\left(a\sin(bx)-b\cos(bx)\right)
+\\
+\int e^{ax}\cos(bx)\,\mathrm{d}x
+=
+\frac{e^{ax}}{a^2+b^2}
+\left(a\cos(bx)+b\sin(bx)\right)
+\end{gather*}
+\vspace{-13pt}
+}{0.46}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Definite Integrals}{
+\vspace{-7pt}
+\begin{gather*}
+\int_{-\infty}^{\infty}e^{-\alpha x^2}\,\mathrm{d}x
+=
+\sqrt{\frac{\pi}{\alpha}}
+\qquad
+\int_{-\infty}^{\infty}
+e^{-\alpha x^2+i\beta x}\,\mathrm{d}x
+=
+\sqrt{\frac{\pi}{\alpha}}
+e^{-\frac{\beta^2}{4\alpha}}
+\\
+\int_0^\infty e^{-ax}\cos(bx)\,\mathrm{d}x
+=
+\frac{a}{a^2+b^2}
+\qquad
+\int_0^\infty e^{-ax}\sin(bx)\,\mathrm{d}x
+=
+\frac{b}{a^2+b^2}
+\\
+\int_0^{\pi/2}\sin^2(x)\,\mathrm{d}x
+=
+\int_0^{\pi/2}\cos^2(x)\,\mathrm{d}x
+=
+\frac{\pi}{4}
+\qquad
+\int_{-\pi/2}^{\pi/2}\cos(x)\,\mathrm{d}x
+=
+2
+\\
+\frac{\mathrm{d}}{\mathrm{d}x}
+\int_{a(x)}^{b(x)}f(x)\,\mathrm{d}x
+=
+f(b(x))\,b'(x)-f(a(x))\,a'(x)
+\end{gather*}
+\vspace{-15pt}
+}{0.46}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Basic Differential Equations}{
+\vspace{-10pt}
+\begin{gather*}
+\ddot{Y}+\lambda^2Y=0
+\Rightarrow
+Y=A\sin(\lambda x)+B\cos(\lambda x)
+\\
+\ddot{Y}-\lambda^2Y=0
+\Rightarrow
+Y=A\sinh(\lambda x)+B\sinh(\lambda x)
+=
+Ce^{\lambda x}+De^{-\lambda x}
+\\
+\dot{Y}+\lambda Y=0
+\Rightarrow
+Y=Ae^{\lambda x}
+\\
+\ddot{Y}+\lambda=0
+\Rightarrow
+Y=-\frac{\lambda}{2}x^2+Ax+B
+\\
+r^2R''+rR'-\lambda^2=0
+\Rightarrow
+R=Ar^\lambda+Br^{-\lambda}
+\\
+y'+P(x)y=Q(x)
+\Rightarrow
+y=
+e^{-\int P(x)\,\mathrm{d}x}
+\left(
+\int e^{\int P(x)\,\mathrm{d}x}Q(x)\,\mathrm{d}x+C
+\right)
+\end{gather*}
+\vspace{-13pt}
+}{0.46}
+\end{mytikzbox}

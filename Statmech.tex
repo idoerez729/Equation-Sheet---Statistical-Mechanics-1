@@ -1,1343 +1,866 @@
-\subsection*{Algebra}
-\unskip
+\documentclass[8pt,a4paper]{extarticle}
+\usepackage[margin=6mm]{geometry}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{multicol}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 
-%=========================================================
-% TRIGONOMETRY
-%=========================================================
+\pagestyle{plain}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.8pt}
+\setlength{\columnsep}{5mm}
+\setlength{\columnseprule}{0.15pt}
+\setlength{\abovedisplayskip}{1.5pt}
+\setlength{\belowdisplayskip}{1.5pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{1pt}
+\setlist[itemize]{leftmargin=3mm,itemsep=0pt,topsep=1pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=4mm,itemsep=0pt,topsep=1pt,parsep=0pt}
+\renewcommand{\arraystretch}{0.93}
+\allowdisplaybreaks
 
-\begin{mytikzbox}{Trigonometry}{
-\textbf{Angle addition:}
-\begin{gather*}
-\sin(a\pm b)
-=
-\sin a\cos b\pm\cos a\sin b,
-\\
-\cos(a\pm b)
-=
-\cos a\cos b\mp\sin a\sin b.
-\end{gather*}
+\tikzset{
+  mybox/.style={draw=black,fill=white,line width=0.65pt,
+    rectangle,rounded corners=1.6pt,inner xsep=3.5pt,inner ysep=4pt},
+  fancytitle/.style={fill=black,text=white,font=\bfseries\footnotesize,
+    inner xsep=3pt,inner ysep=1.2pt}
+}
 
-\textbf{Product-to-sum identities:}
-\begin{gather*}
-\cos a\cos b
-=
-\frac{1}{2}
-\left[
-\cos(a+b)+\cos(a-b)
-\right],
-\\
-\sin a\sin b
-=
-\frac{1}{2}
-\left[
-\cos(a-b)-\cos(a+b)
-\right],
-\\
-\cos a\sin b
-=
-\frac{1}{2}
-\left[
-\sin(a+b)-\sin(a-b)
-\right].
-\end{gather*}
+% Usage: \begin{mytikzbox}{Title}{contents}{width fraction}\end{mytikzbox}
+\newenvironment{mytikzbox}[3]{%
+  \begin{tikzpicture}
+    \node[mybox] (box) {\begin{minipage}{#3\textwidth}\raggedright #2\end{minipage}};
+    \node[fancytitle,anchor=west] at ([xshift=4pt]box.north west) {#1};
+  \end{tikzpicture}\par\vspace{1.2pt}
+}{ }
 
-\textbf{Complex representation:}
-\begin{gather*}
-\sin z
-=
-\frac{e^{iz}-e^{-iz}}{2i},
-\qquad
-\cos z
-=
-\frac{e^{iz}+e^{-iz}}{2},
-\\
-\cosh x=\cos(ix),
-\qquad
-\sinh x=-i\sin(ix).
-\end{gather*}
+\newcommand{\dd}{\,\mathrm d}
+\newcommand{\avg}[1]{\left\langle #1\right\rangle}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\e}{\mathrm e}
+\newcommand{\kb}{k_{\mathrm B}}
+\newcommand{\pt}{\partial_t}
+\newcommand{\grad}{\boldsymbol\nabla}
+\newcommand{\Order}{\mathcal O}
 
-\textbf{Double-angle identities:}
+\begin{document}
+\fontsize{8.1}{8.8}\selectfont
+\begin{multicols*}{2}
+\raggedcolumns
+
+\begin{center}
+{\Large\bfseries Statistical Mechanics --- Formula Sheet}\\[-2pt]
+{\scriptsize Exam 77802 A, 2026 --- statistical-mechanics material only}
+\end{center}
+
+\begin{mytikzbox}{Thermodynamics and potentials}{
+\textbf{First law and conjugate variables}
 \[
-\cos(2x)=\cos^2x-\sin^2x,
-\qquad
-\sin(2x)=2\sin x\cos x.
+ \dd E=T\dd S-P\dd V+\mu\dd N,\qquad
+ T=\left(\frac{\partial E}{\partial S}\right)_{V,N},\quad
+ P=-\left(\frac{\partial E}{\partial V}\right)_{S,N}.
 \]
-
-\textbf{Half-angle identities:}
-\begin{gather*}
-\sin\left(\frac{\theta}{2}\right)
-=
-\pm\sqrt{\frac{1-\cos\theta}{2}},
-\qquad
-\cos\left(\frac{\theta}{2}\right)
-=
-\pm\sqrt{\frac{1+\cos\theta}{2}},
-\\
-\tan\left(\frac{\theta}{2}\right)
-=
-\pm\sqrt{\frac{1-\cos\theta}{1+\cos\theta}}
-=
-\frac{\sin\theta}{1+\cos\theta}
-=
-\frac{1-\cos\theta}{\sin\theta}.
-\end{gather*}
-\vspace{-10pt}
-}{0.46}
+\[
+\begin{array}{c|c|c}
+\text{potential}&\text{definition}&\text{differential}\\ \hline
+E&E(S,V,N)&T\dd S-P\dd V+\mu\dd N\\
+H&E+PV&T\dd S+V\dd P+\mu\dd N\\
+F&E-TS&-S\dd T-P\dd V+\mu\dd N\\
+G&E-TS+PV&-S\dd T+V\dd P+\mu\dd N\\
+\Omega&F-\mu N&-S\dd T-P\dd V-N\dd\mu
+\end{array}
+\]
+For an extensive system:
+\[
+E=TS-PV+\mu N,\qquad S\dd T-V\dd P+N\dd\mu=0,
+\qquad G=\mu N,\quad\Omega=-PV.
+\]
+Maxwell relations follow by equality of mixed derivatives, e.g.
+\[
+\left(\frac{\partial S}{\partial V}\right)_T=
+\left(\frac{\partial P}{\partial T}\right)_V,\qquad
+\left(\frac{\partial S}{\partial P}\right)_T=-
+\left(\frac{\partial V}{\partial T}\right)_P.
+\]
+\textbf{Processes:} isothermal $\dd T=0$; isochoric $\dd V=0$;
+isobaric $\dd P=0$; adiabatic $\delta Q=0$; isentropic $\dd S=0$.
+For a reversible path $\dd S=\delta Q_{\rm rev}/T$; generally
+$\dd S\geq\delta Q/T$. A reversible adiabatic process is isentropic.
+}{0.475}
 \end{mytikzbox}
 
-%=========================================================
-
-\begin{mytikzbox}{Powers of trigonometric functions}{
-\vspace{-7pt}
-\begin{gather*}
-\cos^2x
-=
-\frac{1+\cos(2x)}{2},
-\qquad
-\sin^2x
-=
-\frac{1-\cos(2x)}{2},
-\\
-\cos^3x
-=
-\frac{3}{4}\cos x+\frac{1}{4}\cos(3x),
-\\
-\sin^3x
-=
-\frac{3}{4}\sin x-\frac{1}{4}\sin(3x).
-\end{gather*}
-\vspace{-12pt}
-}{0.46}
+\begin{mytikzbox}{Entropy and maximum entropy}{
+\textbf{Boltzmann:} for an isolated macrostate with multiplicity $\Omega$,
+\[
+S_{\rm B}=\kb\ln\Omega,
+\qquad \frac1T=\left(\frac{\partial S}{\partial E}\right)_{V,N}.
+\]
+\textbf{Gibbs--Shannon:}
+\[
+S[p]=-\kb\sum_i p_i\ln p_i,
+\qquad \sum_i p_i=1.
+\]
+Maximizing $S[p]$ subject to $\avg{A_a}=\sum_i p_i A_{a,i}$ gives
+\[
+p_i=\frac1Z\exp\!\left(-\sum_a\lambda_a A_{a,i}\right),
+\qquad Z=\sum_i\exp\!\left(-\sum_a\lambda_a A_{a,i}\right).
+\]
+Canonical constraint $\avg E$: $\lambda_E=\beta=1/(\kb T)$ and
+$p_i=Z^{-1}\e^{-\beta E_i}$. Equal probabilities apply in the
+\emph{isolated total system}; tracing out a heat bath produces the
+Boltzmann factor $\Omega_B(E_{\rm tot}-E_i)\propto\e^{-\beta E_i}$.
+}{0.475}
 \end{mytikzbox}
 
-%=========================================================
-% FUNCTIONAL DERIVATIVES
-%=========================================================
+\begin{mytikzbox}{Transforms and ensemble choice}{
+\textbf{Legendre transform:} if $p=f'(x)$,
+$f^*(p)=px(p)-f(x(p))$ (sign conventions may be reversed).
+It exchanges a controlled extensive variable with its intensive conjugate.
 
-\begin{mytikzbox}{Functional derivatives}{
-For
-\[
-J[f]
-=
-\int_a^b
-\mathcal L\!\left(x,f(x),f'(x)\right)\,dx,
-\]
-the functional derivative is
-\[
-\frac{\delta J}{\delta f(x)}
-=
-\frac{\partial\mathcal L}{\partial f}
--
-\frac{d}{dx}
-\left(
-\frac{\partial\mathcal L}{\partial f'}
-\right).
-\]
-
-More generally, for a field $\phi(\mathbf x)$,
-\[
-J[\phi]
-=
-\int d^d x\,
-\mathcal L(\phi,\partial_i\phi),
-\]
-\[
-\frac{\delta J}{\delta\phi(\mathbf x)}
-=
-\frac{\partial\mathcal L}{\partial\phi}
--
-\partial_i
-\left(
-\frac{\partial\mathcal L}
-{\partial(\partial_i\phi)}
-\right).
-\]
-
-Useful identity:
-\[
-\frac{\delta\phi(\mathbf x)}
-{\delta\phi(\mathbf y)}
-=
-\delta^{(d)}(\mathbf x-\mathbf y).
-\]
-}{0.46}
-\end{mytikzbox}
-
-%=========================================================
-% SPHERICAL COORDINATES
-%=========================================================
-
-\begin{mytikzbox}{Spherical coordinates}{
-\textbf{Coordinate transformation:}
-\begin{gather*}
-x=r\sin\theta\cos\phi,
-\qquad
-y=r\sin\theta\sin\phi,
-\\
-z=r\cos\theta.
-\end{gather*}
-
-\textbf{Ranges:}
-\[
-r\geq0,
-\qquad
-0\leq\theta\leq\pi,
-\qquad
-0\leq\phi<2\pi.
-\]
-
-\textbf{Volume element:}
-\[
-d^3\mathbf r
-=
-r^2\sin\theta\,dr\,d\theta\,d\phi.
-\]
-
-\textbf{Radially symmetric functions:}
-\[
-\nabla f(r)
-=
-f'(r)\hat{\mathbf r},
-\]
-\[
-\nabla^2 f(r)
-=
-\frac{1}{r^2}
-\frac{d}{dr}
-\left(
-r^2\frac{df}{dr}
-\right).
-\]
-
-For $\mathbf A=A_r(r)\hat{\mathbf r}$,
-\[
-\nabla\cdot\mathbf A
-=
-\frac{1}{r^2}
-\frac{d}{dr}\left(r^2A_r\right).
-\]
-}{0.46}
-\end{mytikzbox}
-
-%=========================================================
-% INDEFINITE INTEGRALS
-%=========================================================
-
-\begin{mytikzbox}{Indefinite integrals}{
-\vspace{-6pt}
-\begin{gather*}
-\int xe^{ax}\,dx
-=
-\frac{e^{ax}}{a}
-\left(
-x-\frac{1}{a}
-\right),
-\\
-\int x^2e^{ax}\,dx
-=
-\frac{e^{ax}}{a}
-\left(
-x^2-\frac{2x}{a}+\frac{2}{a^2}
-\right),
-\\
-\int x\cos(ax)\,dx
-=
-\frac{x\sin(ax)}{a}
-+
-\frac{\cos(ax)}{a^2},
-\\
-\int x\sin(ax)\,dx
-=
--\frac{x\cos(ax)}{a}
-+
-\frac{\sin(ax)}{a^2},
-\\
-\int x^2\cos(ax)\,dx
-=
-\frac{x^2\sin(ax)}{a}
-+
-\frac{2x\cos(ax)}{a^2}
--
-\frac{2\sin(ax)}{a^3},
-\\
-\int x^2\sin(ax)\,dx
-=
--\frac{x^2\cos(ax)}{a}
-+
-\frac{2x\sin(ax)}{a^2}
-+
-\frac{2\cos(ax)}{a^3}.
-\end{gather*}
-
-\begin{gather*}
-\int\sin(ax)\cos(bx)\,dx
-=
--\frac{\cos[(a+b)x]}{2(a+b)}
--\frac{\cos[(a-b)x]}{2(a-b)},
-\\
-\int\cos(ax)\cos(bx)\,dx
-=
-\frac{\sin[(a-b)x]}{2(a-b)}
-+
-\frac{\sin[(a+b)x]}{2(a+b)},
-\\
-\int\sin(ax)\sin(bx)\,dx
-=
-\frac{\sin[(a-b)x]}{2(a-b)}
--
-\frac{\sin[(a+b)x]}{2(a+b)}.
-\end{gather*}
-
-\begin{gather*}
-\int\sin^n(ax)\cos(ax)\,dx
-=
-\frac{\sin^{n+1}(ax)}{(n+1)a},
-\\
-\int\cos^n(ax)\sin(ax)\,dx
-=
--\frac{\cos^{n+1}(ax)}{(n+1)a},
-\\
-\int e^{ax}\sin(bx)\,dx
-=
-\frac{e^{ax}}{a^2+b^2}
-\left[
-a\sin(bx)-b\cos(bx)
-\right],
-\\
-\int e^{ax}\cos(bx)\,dx
-=
-\frac{e^{ax}}{a^2+b^2}
-\left[
-a\cos(bx)+b\sin(bx)
-\right].
-\end{gather*}
-\vspace{-13pt}
-}{0.46}
-\end{mytikzbox}
-
-%=========================================================
-% DEFINITE INTEGRALS
-%=========================================================
-
-\begin{mytikzbox}{Definite integrals}{
-\vspace{-7pt}
-For $\Re(\alpha)>0$,
-\begin{gather*}
-\int_{-\infty}^{\infty}
-e^{-\alpha x^2}\,dx
-=
-\sqrt{\frac{\pi}{\alpha}},
-\\
-\int_{-\infty}^{\infty}
-e^{-\alpha x^2+i\beta x}\,dx
-=
-\sqrt{\frac{\pi}{\alpha}}
-e^{-\beta^2/(4\alpha)}.
-\end{gather*}
-
-For $a>0$,
-\begin{gather*}
-\int_0^\infty
-e^{-ax}\cos(bx)\,dx
-=
-\frac{a}{a^2+b^2},
-\\
-\int_0^\infty
-e^{-ax}\sin(bx)\,dx
-=
-\frac{b}{a^2+b^2}.
-\end{gather*}
-
-\begin{gather*}
-\int_0^{\pi/2}\sin^2x\,dx
-=
-\int_0^{\pi/2}\cos^2x\,dx
-=
-\frac{\pi}{4},
-\\
-\int_{-\pi/2}^{\pi/2}\cos x\,dx=2.
-\end{gather*}
-
-\textbf{Leibniz rule:}
-\[
-\frac{d}{dt}
-\int_{a(t)}^{b(t)}f(x,t)\,dx
-=
-f(b(t),t)b'(t)
--
-f(a(t),t)a'(t)
-+
-\int_{a(t)}^{b(t)}
-\frac{\partial f}{\partial t}\,dx.
-\]
-\vspace{-12pt}
-}{0.46}
-\end{mytikzbox}
-
-%=========================================================
-% BASIC DIFFERENTIAL EQUATIONS
-%=========================================================
-
-\begin{mytikzbox}{Basic differential equations}{
-\vspace{-10pt}
-\begin{gather*}
-Y''+\lambda^2Y=0
-\quad\Longrightarrow\quad
-Y=A\sin(\lambda x)+B\cos(\lambda x),
-\\
-Y''-\lambda^2Y=0
-\quad\Longrightarrow\quad
-Y=A\sinh(\lambda x)+B\cosh(\lambda x)
-\\
-\hspace{42mm}
-=Ce^{\lambda x}+De^{-\lambda x},
-\\
-Y'+\lambda Y=0
-\quad\Longrightarrow\quad
-Y=Ae^{-\lambda x},
-\\
-Y''+\lambda=0
-\quad\Longrightarrow\quad
-Y=-\frac{\lambda}{2}x^2+Ax+B,
-\\
-r^2R''+rR'-\lambda^2R=0
-\quad\Longrightarrow\quad
-R=Ar^\lambda+Br^{-\lambda}.
-\end{gather*}
-
-For
-\[
-y'+P(x)y=Q(x),
-\]
-\[
-y
-=
-e^{-\int P(x)\,dx}
-\left[
-\int
-e^{\int P(x)\,dx}
-Q(x)\,dx+C
-\right].
-\]
-\vspace{-13pt}
-}{0.46}
-\end{mytikzbox}
-
-%=========================================================
-% LAPLACE AND Z TRANSFORMS
-%=========================================================
-
-\begin{mytikzbox}{Laplace and $z$ transforms}{
 \textbf{Laplace transform:}
 \[
-\mathcal L\{f(t)\}(s)
-=
-F(s)
-=
-\int_0^\infty e^{-st}f(t)\,dt.
+\mathcal L\{g\}(s)=\int_0^\infty \e^{-sx}g(x)\dd x.
 \]
+Canonical $Z(\beta)$ is the Laplace transform of the density of states:
+$Z(\beta)=\int\rho(E)\e^{-\beta E}\dd E$.
+The $NPT$ partition function is a Laplace transform in $V$.
 
-\begin{gather*}
-\mathcal L\{f'(t)\}
-=
-sF(s)-f(0),
-\\
-\mathcal L\{f''(t)\}
-=
-s^2F(s)-sf(0)-f'(0),
-\\
-\mathcal L\{e^{at}\}
-=
-\frac{1}{s-a},
-\\
-\mathcal L\{\sin(\omega t)\}
-=
-\frac{\omega}{s^2+\omega^2},
-\qquad
-\mathcal L\{\cos(\omega t)\}
-=
-\frac{s}{s^2+\omega^2}.
-\end{gather*}
-
-\textbf{$z$ transform:}
+\textbf{$z$-transform / generating function:}
 \[
-\mathcal Z\{f_n\}(z)
-=
-F(z)
-=
-\sum_{n=0}^{\infty}f_nz^{-n}.
+\widetilde a(z)=\sum_{N\ge0}a_Nz^N,
+\qquad \Xi(z)=\sum_{N\ge0}z^N Z_N,
+\qquad z=\e^{\beta\mu}.
 \]
-
 \[
-\mathcal Z\{f_{n+1}\}
-=
-z\left[F(z)-f_0\right].
+\begin{array}{c|c|c}
+\text{fixed variables}&\text{ensemble}&\text{potential}\\ \hline
+E,V,N&\text{microcanonical}&E\ \text{or }S\\
+T,V,N&\text{canonical}&F\\
+T,P,N&\text{isothermal--isobaric}&G\\
+T,V,\mu&\text{grand canonical}&\Omega
+\end{array}
 \]
-
-For a geometric sequence,
-\[
-f_n=a^n
-\quad\Longrightarrow\quad
-F(z)=\frac{z}{z-a}.
-\]
-}{0.46}
+}{0.475}
 \end{mytikzbox}
 
-%=========================================================
-% HUBBARD--STRATONOVICH
-%=========================================================
-
-\begin{mytikzbox}{Hubbard--Stratonovich transformation}{
-The Gaussian identity
+\begin{mytikzbox}{Partition functions and derivatives}{
+\textbf{Canonical}
 \[
-e^{\frac{A}{2}x^2}
-=
-\frac{1}{\sqrt{2\pi A^{-1}}}
-\int_{-\infty}^{\infty}
-d\phi\,
-e^{-\frac{\phi^2}{2A}+\phi x},
-\qquad A>0,
+Z_N=\sum_i\e^{-\beta E_i},\quad F=-\kb T\ln Z_N,
+\quad U=-\partial_\beta\ln Z_N,
 \]
-replaces a quadratic interaction by a linear coupling to an
-auxiliary field.
-
-Equivalently,
 \[
-e^{\frac{1}{2}J^TAJ}
-=
-\frac{1}{\sqrt{\det(2\pi A)}}
-\int d^n\phi\,
-e^{-\frac{1}{2}\phi^TA^{-1}\phi+J^T\phi}.
+S=\kb(\ln Z_N+\beta U),\quad
+P=\kb T\,\partial_V\ln Z_N,
+\quad \Var(E)=\partial_\beta^2\ln Z_N=\kb T^2C_V.
 \]
-
-Functional form:
+Classical phase space:
 \[
-e^{\frac{1}{2}\int dx\,dy\,
-J(x)A(x,y)J(y)}
-\propto
-\int\mathcal D\phi\,
-e^{
--\frac{1}{2}\int dx\,dy\,
-\phi(x)A^{-1}(x,y)\phi(y)
-+\int dx\,J(x)\phi(x)
-}.
+Z_N=\frac1{N!h^{3N}}\int\prod_{i=1}^N\dd^3p_i\dd^3q_i\,
+\e^{-\beta H_N}.
 \]
-
-For the Curie--Weiss interaction,
+\textbf{Isothermal--isobaric}
 \[
-e^{\frac{\beta J}{2N}
-\left(\sum_i s_i\right)^2}
-\propto
-\int dm\,
-e^{-\frac{\beta JN}{2}m^2
-+\beta Jm\sum_i s_i}.
+\Delta(T,P,N)=\int_0^\infty\dd V\,\e^{-\beta PV}Z_N(T,V),
+\quad G=-\kb T\ln\Delta,
 \]
-}{0.46}
+\[
+\avg V=-\frac1\beta\partial_P\ln\Delta,
+\qquad \avg{E+PV}=-\partial_\beta\ln\Delta.
+\]
+\textbf{Grand canonical}
+\[
+\Xi=\sum_{N=0}^\infty\e^{\beta\mu N}Z_N,
+\quad\Omega=-\kb T\ln\Xi,
+\]
+\[
+\avg N=\frac1\beta\partial_\mu\ln\Xi=z\partial_z\ln\Xi,
+\quad \Var(N)=\frac1{\beta^2}\partial_\mu^2\ln\Xi.
+\]
+}{0.475}
 \end{mytikzbox}
 
-%=========================================================
-% GINZBURG--LANDAU
-%=========================================================
-
-\begin{mytikzbox}{Ginzburg--Landau theory}{
-For a scalar order parameter $\phi(\mathbf x)$,
+\begin{mytikzbox}{Ideal gas and equipartition}{
+Thermal wavelength $\lambda_T=h/\sqrt{2\pi m\kb T}$:
 \[
-\mathcal F[\phi]
-=
-\int d^dx
-\left[
-\frac{\kappa}{2}(\nabla\phi)^2
-+
-\frac{r}{2}\phi^2
-+
-\frac{u}{4}\phi^4
--
-h\phi
-\right].
+Z_N=\frac1{N!}\left(\frac{V}{\lambda_T^3}\right)^N,
+\quad PV=N\kb T,
+\quad U=\frac32N\kb T.
 \]
-
-The statistical path integral is
+Using Stirling, $\ln N!\simeq N\ln N-N$:
 \[
-Z[h]
-=
-\int\mathcal D\phi\,
-e^{-\beta\mathcal F[\phi]}.
-\]
-
-Mean-field configurations satisfy
-\[
-\frac{\delta\mathcal F}{\delta\phi}
-=
--\kappa\nabla^2\phi
-+r\phi
-+u\phi^3-h
-=
-0.
-\]
-
-For a uniform field and $h=0$,
-\[
-r\phi+u\phi^3=0,
-\]
-and therefore
-\[
-\phi_0=
-\begin{cases}
-0, & r>0,\\[2mm]
-\displaystyle\pm\sqrt{-\frac{r}{u}},
-& r<0.
-\end{cases}
-\]
-
-Usually,
-\[
-r=a(T-T_c).
-\]
-}{0.46}
-\end{mytikzbox}
-
-%=========================================================
-% GAUSSIAN FIELD THEORY
-%=========================================================
-
-\begin{mytikzbox}{Gaussian field theory}{
-The quadratic Ginzburg--Landau functional is
-\[
-\beta\mathcal F_0[\phi]
-=
-\frac{1}{2}
-\int\frac{d^dk}{(2\pi)^d}
-\left(r+\kappa k^2\right)
-|\phi_{\mathbf k}|^2.
-\]
-
-The Fourier convention is
-\[
-\phi(\mathbf x)
-=
-\int\frac{d^dk}{(2\pi)^d}
-e^{i\mathbf k\cdot\mathbf x}
-\phi_{\mathbf k}.
-\]
-
-The two-point correlation function is
-\[
-G(\mathbf k)
-=
-\langle
-\phi_{\mathbf k}\phi_{-\mathbf k}
-\rangle
-=
-\frac{1}{r+\kappa k^2}.
-\]
-
-Equivalently,
-\[
-G(\mathbf x-\mathbf y)
-=
-\int\frac{d^dk}{(2\pi)^d}
-\frac{
-e^{i\mathbf k\cdot(\mathbf x-\mathbf y)}
-}{
-r+\kappa k^2
-}.
-\]
-
-It satisfies
-\[
-\left(
--\kappa\nabla^2+r
-\right)
-G(\mathbf x)
-=
-\delta^{(d)}(\mathbf x).
-\]
-
-The correlation length is
-\[
-\xi=\sqrt{\frac{\kappa}{r}}.
-\]
-
-At large distance,
-\[
-G(r)
-\sim
-\frac{e^{-r/\xi}}{r^{(d-1)/2}}.
-\]
-
-At criticality, $r=0$,
-\[
-G(r)\sim\frac{1}{r^{d-2}}.
-\]
-}{0.46}
-\end{mytikzbox}
-
-%=========================================================
-% SUSCEPTIBILITY
-%=========================================================
-
-\begin{mytikzbox}{Green's functions and susceptibility}{
-With a source $h(\mathbf x)$,
-\[
-Z[h]
-=
-\int\mathcal D\phi\,
-e^{-\beta\mathcal F[\phi]
-+\beta\int d^dx\,h(\mathbf x)\phi(\mathbf x)}.
-\]
-
-The expectation value is
-\[
-\langle\phi(\mathbf x)\rangle
-=
-\frac{1}{\beta}
-\frac{\delta\ln Z[h]}
-{\delta h(\mathbf x)}.
-\]
-
-The connected two-point function is
-\[
-G_c(\mathbf x,\mathbf y)
-=
-\langle\phi(\mathbf x)\phi(\mathbf y)\rangle
--
-\langle\phi(\mathbf x)\rangle
-\langle\phi(\mathbf y)\rangle.
-\]
-
-The susceptibility is
-\[
-\chi(\mathbf x,\mathbf y)
-=
-\frac{\delta\langle\phi(\mathbf x)\rangle}
-{\delta h(\mathbf y)}
-=
-\beta G_c(\mathbf x,\mathbf y).
-\]
-
-For a translationally invariant system,
-\[
-\chi
-=
-\int d^dx\,
-\chi(\mathbf x)
-=
-\beta\int d^dx\,G_c(\mathbf x).
-\]
-
-In Fourier space,
-\[
-\chi(\mathbf k)=\beta G_c(\mathbf k).
-\]
-
-In the Gaussian approximation,
-\[
-\chi(\mathbf k)
-=
-\frac{\beta}{r+\kappa k^2},
-\qquad
-\chi(0)=\frac{\beta}{r}.
-\]
-}{0.46}
-\end{mytikzbox}
-
-%=========================================================
-% O(N) AND GOLDSTONE
-%=========================================================
-
-\begin{mytikzbox}{$O(N)$ model and Goldstone modes}{
-For an $N$-component order parameter
-$\boldsymbol\phi$,
-\[
-\mathcal F[\boldsymbol\phi]
-=
-\int d^dx
-\left[
-\frac{\kappa}{2}
-(\nabla\boldsymbol\phi)^2
-+
-\frac{r}{2}\boldsymbol\phi^2
-+
-\frac{u}{4}
-(\boldsymbol\phi^2)^2
-\right].
-\]
-
-For $r<0$, choose the vacuum
-\[
-\boldsymbol\phi_0
-=
-v\hat{\mathbf e}_1,
-\qquad
-v^2=-\frac{r}{u}.
-\]
-
-Decompose fluctuations as
-\[
-\boldsymbol\phi
-=
-(v+\sigma,\pi_1,\ldots,\pi_{N-1}).
-\]
-
-To quadratic order,
-\[
-\mathcal F^{(2)}
-=
-\frac{1}{2}
-\int d^dx
-\left[
-\kappa(\nabla\sigma)^2
-+
-m_\sigma^2\sigma^2
-+
-\kappa
-\sum_{a=1}^{N-1}
-(\nabla\pi_a)^2
-\right],
-\]
-where
-\[
-m_\sigma^2=-2r>0,
-\qquad
-m_{\pi_a}^2=0.
-\]
-
-Thus,
-\[
-G_\sigma(k)
-=
-\frac{1}{\kappa k^2+m_\sigma^2},
-\qquad
-G_{\pi}(k)
-=
-\frac{1}{\kappa k^2}.
-\]
-
-There is one Goldstone mode for every broken continuous
-symmetry generator.
-}{0.46}
-\end{mytikzbox}
-
-%=========================================================
-% CRITICAL EXPONENTS
-%=========================================================
-
-\begin{mytikzbox}{Critical exponents}{
-Define the reduced temperature
-\[
-t=\frac{T-T_c}{T_c}.
-\]
-
-Near a continuous phase transition,
-\begin{gather*}
-C\sim |t|^{-\alpha},
-\\
-m\sim(-t)^\beta,
-\qquad t<0,
-\\
-\chi\sim |t|^{-\gamma},
-\\
-m(t=0,h)\sim h^{1/\delta},
-\\
-\xi\sim |t|^{-\nu},
-\\
-G(r)\big|_{t=0}
-\sim
-\frac{1}{r^{d-2+\eta}}.
-\end{gather*}
-
-Common scaling relations:
-\begin{gather*}
-\alpha+2\beta+\gamma=2,
-\\
-\gamma=\beta(\delta-1),
-\\
-\gamma=\nu(2-\eta),
-\\
-2-\alpha=d\nu
-\qquad
-\text{(hyperscaling)}.
-\end{gather*}
-
-Mean-field values:
-\[
-\alpha=0,
+F=-N\kb T\left[\ln\left(\frac{V}{N\lambda_T^3}\right)+1\right],
 \quad
-\beta=\frac{1}{2},
-\quad
-\gamma=1,
-\quad
-\delta=3,
-\quad
-\nu=\frac{1}{2},
-\quad
-\eta=0.
+S=N\kb\left[\ln\left(\frac{V}{N\lambda_T^3}\right)+\frac52\right].
 \]
-}{0.46}
+Every independent quadratic term in $H$ contributes $\frac12\kb T$ to
+$U$ and $\frac12\kb$ to $C_V$.
+}{0.475}
 \end{mytikzbox}
 
-%=========================================================
-% CRITICAL DIMENSIONS
-%=========================================================
-
-\begin{mytikzbox}{Upper and lower critical dimensions}{
-For the $\phi^4$ or $O(N)$ model, the quartic coupling has
-scaling dimension
+\begin{mytikzbox}{Laplace / saddle-point method}{
+For $N\gg1$ and a nondegenerate interior minimum $x_*$ of $f$,
 \[
-[u]=4-d.
+I(N)=\int g(x)\e^{-Nf(x)}\dd x
+\simeq g(x_*)\e^{-Nf(x_*)}
+\sqrt{\frac{2\pi}{Nf''(x_*)}}.
 \]
-
-Therefore,
+In $d$ dimensions, with Hessian $H_{ij}=\partial_i\partial_jf(x_*)$,
 \[
-d_c^{\mathrm{upper}}=4.
+I(N)\simeq g(x_*)\e^{-Nf(x_*)}
+\left(\frac{2\pi}{N}\right)^{d/2}(\det H)^{-1/2}.
 \]
-
-For $d>4$, the quartic interaction is irrelevant and
-mean-field exponents are valid.
-
-For $d<4$, fluctuations modify the critical exponents.
-
-For continuous $O(N)$ symmetry with $N\geq2$,
-Goldstone fluctuations behave as
+Dominant width $\Delta x\sim[Nf''(x_*)]^{-1/2}$.
+Small parameter: $1/N$ (or $1/\beta$ in a low-$T$ integral).
+Boundary minima and degenerate saddles require a modified expansion.
+Stirling follows from $N!=\int_0^\infty x^N\e^{-x}\dd x$:
 \[
-\langle\pi^2\rangle
-\sim
-\int\frac{d^dk}{k^2}.
+N!\simeq\sqrt{2\pi N}(N/\e)^N
+\left(1+\frac1{12N}+\cdots\right).
 \]
-
-This integral diverges in the infrared for
-\[
-d\leq2.
-\]
-
-Thus,
-\[
-d_c^{\mathrm{lower}}=2
-\qquad
-\text{for continuous symmetries}.
-\]
-
-For the discrete Ising symmetry,
-\[
-d_c^{\mathrm{lower}}=1.
-\]
-
-The Mermin--Wagner theorem forbids spontaneous breaking
-of continuous symmetries at finite temperature for
-$d\leq2$ with sufficiently short-range interactions.
-}{0.46}
+}{0.475}
 \end{mytikzbox}
 
-%=========================================================
-% TRANSFER MATRIX
-%=========================================================
+\newpage
+\begin{center}{\large\bfseries Interactions, Mean Field and Phase Transitions}\end{center}
 
-\begin{mytikzbox}{Transfer-matrix method}{
-For a one-dimensional Ising chain,
+\begin{mytikzbox}{Transfer matrix: periodic 1D Ising model}{
 \[
-H
-=
--J\sum_{i=1}^{N}s_is_{i+1}
--h\sum_{i=1}^{N}s_i,
-\qquad
-s_i=\pm1,
-\qquad
-s_{N+1}=s_1.
+H=-J\sum_{i=1}^Ns_is_{i+1}-h\sum_{i=1}^Ns_i,
+\qquad s_i=\pm1,\text{ }s_{N+1}=s_1.
 \]
-
-Define the transfer matrix
+Split the field equally between adjacent bonds:
 \[
-T_{s,s'}
-=
-\exp
-\left[
-\beta Jss'
-+
-\frac{\beta h}{2}(s+s')
-\right].
-\]
-
-Explicitly,
-\[
-T
-=
-\begin{pmatrix}
-e^{\beta J+\beta h} & e^{-\beta J}\\
-e^{-\beta J} & e^{\beta J-\beta h}
+T_{ss'}=\exp\!\left[\beta Jss'+\frac{\beta h}{2}(s+s')\right],
+\quad
+T=\begin{pmatrix}
+\e^{\beta J+\beta h}&\e^{-\beta J}\\
+\e^{-\beta J}&\e^{\beta J-\beta h}
 \end{pmatrix}.
 \]
-
-The partition function is
 \[
-Z_N=\operatorname{Tr}(T^N)
-=
-\lambda_+^N+\lambda_-^N.
+Z_N=\Tr T^N=\lambda_+^N+\lambda_-^N,
 \]
-
-The eigenvalues are
 \[
-\lambda_\pm
-=
-e^{\beta J}\cosh(\beta h)
-\pm
-\sqrt{
-e^{2\beta J}\sinh^2(\beta h)
-+
-e^{-2\beta J}
-}.
+\lambda_\pm=\e^{\beta J}\cosh(\beta h)
+\pm\sqrt{\e^{2\beta J}\sinh^2(\beta h)+\e^{-2\beta J}}.
 \]
-
-In the thermodynamic limit,
+For $N\to\infty$, $f=-\kb T\ln\lambda_+$ and
+$m=\partial_{\beta h}\ln\lambda_+$. Insert the diagonal spin operator
+$S=\operatorname{diag}(1,-1)$:
 \[
-f
-=
--\frac{1}{\beta}
-\ln\lambda_+.
+\avg{s_0s_r}=\frac{\Tr(S T^r S T^{N-r})}{\Tr T^N}.
 \]
-
-For $h=0$,
+At $h=0$ and $N\to\infty$:
 \[
-\lambda_\pm
-=
-e^{\beta J}\pm e^{-\beta J}.
+\avg{s_0s_r}=(\tanh\beta J)^r=\e^{-r/\xi},
+\qquad \xi^{-1}=-\ln(\tanh\beta J).
 \]
-
-The spin correlation function is
-\[
-\langle s_i s_{i+r}\rangle
-=
-\left(
-\frac{\lambda_-}{\lambda_+}
-\right)^r
-=
-\left[
-\tanh(\beta J)
-\right]^r.
-\]
-
-Hence,
-\[
-\xi^{-1}
-=
--\ln[\tanh(\beta J)].
-\]
-}{0.46}
+Thus $\xi<\infty$ for every $T>0$: no finite-temperature transition in 1D.
+Generally the subleading eigenvalue controls relaxation/correlations:
+$\xi^{-1}=\ln|\lambda_0/\lambda_1|$.
+}{0.475}
 \end{mytikzbox}
 
-%=========================================================
-% CHAPMAN--KOLMOGOROV
-%=========================================================
-
-\begin{mytikzbox}{Chapman--Kolmogorov equation}{
-For a Markov process,
+\begin{mytikzbox}{Ising mean-field theory}{
+For coordination number $z$,
 \[
-P(x_3,t_3|x_1,t_1)
-=
-\int dx_2\,
-P(x_3,t_3|x_2,t_2)
-P(x_2,t_2|x_1,t_1),
+H=-J\sum_{\langle ij\rangle}s_is_j-h\sum_i s_i,
+\qquad s_is_j\approx m(s_i+s_j)-m^2.
 \]
-for
 \[
-t_1<t_2<t_3.
+H_{\rm MF}=-(Jzm+h)\sum_i s_i+\frac12NJzm^2,
 \]
-
-For a time-homogeneous process,
 \[
-P(x,t+\tau|x_0,t_0)
-=
-\int dy\,
-P(x,\tau|y,0)
-P(y,t|x_0,t_0).
+Z_{\rm MF}=\e^{-\beta NJzm^2/2}
+[2\cosh\beta(Jzm+h)]^N,
 \]
-
-The transition probabilities therefore compose according to
 \[
-\hat P(t+s)=\hat P(t)\hat P(s).
+f_{\rm MF}(m)=\frac12Jzm^2-\kb T\ln[2\cosh\beta(Jzm+h)],
+\qquad m=\tanh[\beta(Jzm+h)].
 \]
-}{0.46}
+At $h=0$, $T_c=zJ/\kb$. Near $T_c$:
+\[
+m\sim(-t)^{1/2},\quad \chi\sim |t|^{-1},\quad
+m(T_c,h)\sim h^{1/3},\qquad t=(T-T_c)/T_c.
+\]
+Mean field neglects connected fluctuations between distinct sites:
+$\avg{\delta s_i\delta s_j}\approx0$.
+}{0.475}
 \end{mytikzbox}
 
-%=========================================================
-% KRAMERS--MOYAL AND FOKKER--PLANCK
-%=========================================================
-
-\begin{mytikzbox}{Kramers--Moyal expansion}{
-Define the conditional jump moments
+\begin{mytikzbox}{Hubbard--Stratonovich transformation}{
+For $a>0$,
 \[
-M^{(n)}(x,t;\tau)
-=
-\frac{1}{\tau}
-\int d(\Delta x)\,
-(\Delta x)^n
-P(x+\Delta x,t+\tau|x,t).
+\e^{\frac a2x^2}=\frac1{\sqrt{2\pi a}}
+\int_{-\infty}^{\infty}\dd\phi\,
+\exp\!\left[-\frac{\phi^2}{2a}+\phi x\right].
 \]
-
-The Kramers--Moyal coefficients are
+For a positive matrix $K$,
 \[
-D^{(n)}(x,t)
-=
-\frac{1}{n!}
-\lim_{\tau\to0}
-M^{(n)}(x,t;\tau).
+\e^{\frac12\bm s^T K\bm s}
+=\frac1{\sqrt{\det(2\pi K)}}\int\dd^n\phi\,
+\e^{-\frac12\bm\phi^TK^{-1}\bm\phi+\bm\phi^T\bm s}.
 \]
+It replaces a quadratic interaction between microscopic variables by a linear
+coupling to an auxiliary field. The HS field is continuous and, before the
+saddle-point approximation, can take any real value. After integrating out the
+microscopic variables it becomes an effective fluctuating order-parameter field;
+its saddle point reproduces mean field.
+}{0.475}
+\end{mytikzbox}
 
-The probability density obeys
+\begin{mytikzbox}{Landau and Ginzburg--Landau theory}{
+For a scalar order parameter $\phi$ and $t=(T-T_c)/T_c$,
 \[
-\frac{\partial P}{\partial t}
-=
-\sum_{n=1}^{\infty}
-(-\partial_x)^n
-\left[
-D^{(n)}(x,t)P(x,t)
-\right].
+f(\phi)=f_0+\frac{a_0t}{2}\phi^2+\frac u4\phi^4-h\phi+\cdots.
 \]
+If $u>0$: continuous transition, $\phi_0=0$ for $t>0$ and
+$\phi_0^2=-a_0t/u$ for $t<0$. If the quartic coefficient becomes negative,
+a stabilizing $+v\phi^6$ term gives a first-order transition; $u=0$ is a
+tricritical point.
 
-If
+Long-wavelength generalization:
 \[
-D^{(n)}=0
+\mathcal F[\phi]=\int\dd^dx\left[
+\frac c2(\grad\phi)^2+\frac r2\phi^2+\frac u4\phi^4-h\phi\right],
+\quad Z=\int\mathcal D\phi\,\e^{-\beta\mathcal F[\phi]}.
+\]
+\[
+-c\nabla^2\phi+r\phi+u\phi^3=h.
+\]
+Validity: near a continuous transition; wavelengths $\ell\gg$ lattice spacing;
+slow, small coarse-grained order-parameter variations; short-range interactions
+and the appropriate symmetry. An order parameter vanishes in the symmetric
+phase and distinguishes symmetry-related ordered phases.
+}{0.475}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Critical exponents, scaling and universality}{
+\[
+C\sim|t|^{-\alpha},\quad m\sim(-t)^\beta,
+\quad\chi\sim|t|^{-\gamma},\quad
+m(t=0,h)\sim h^{1/\delta},
+\]
+\[
+\xi\sim|t|^{-\nu},\qquad
+G(r,t=0)\sim r^{-(d-2+\eta)}.
+\]
+Mean-field values for scalar $\phi^4$:
+\[
+(\alpha,\beta,\gamma,\delta,\nu,\eta)
+=(0,\tfrac12,1,3,\tfrac12,0).
+\]
+Scaling form and Widom relations:
+\[
+f_s(t,h)=|t|^{2-\alpha}\mathcal F_\pm
+\!\left(h/|t|^{\beta\delta}\right),
+\quad
+m=|t|^\beta\mathcal M_\pm
+\!\left(h/|t|^{\beta\delta}\right),
+\]
+\[
+\alpha+2\beta+\gamma=2,
+\qquad \gamma=\beta(\delta-1),
+\qquad \gamma=\nu(2-\eta),
+\qquad 2-\alpha=d\nu\quad(\text{hyperscaling}).
+\]
+Power laws arise because $\xi$ is the only diverging length scale at a continuous
+transition. Universality is controlled mainly by spatial dimension, symmetry and
+number of order-parameter components, and interaction range---not microscopic
+details.
+}{0.475}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Fourier-space intuition}{
+For a lattice field $s_i$ at positions $\bm r_i$,
+\[
+s_i=\frac1{\sqrt N}\sum_{\bm k}s_{\bm k}\e^{i\bm k\cdot\bm r_i},
 \qquad
-\text{for all }n\geq3,
+s_{\bm k}=\frac1{\sqrt N}\sum_i s_i\e^{-i\bm k\cdot\bm r_i}.
 \]
-the expansion truncates to the Fokker--Planck equation:
+Translation-invariant quadratic forms diagonalize:
 \[
-\frac{\partial P}{\partial t}
-=
--\partial_x
-\left[
-D^{(1)}P
-\right]
-+
-\partial_x^2
-\left[
-D^{(2)}P
-\right].
+\frac12\sum_{ij}s_iK_{i-j}s_j
+=\frac12\sum_{\bm k}K(\bm k)|s_{\bm k}|^2.
 \]
-
-Pawula's theorem: a finite truncation beyond second order is
-generally inconsistent with positivity.
-}{0.46}
+Near a transition the soft modes have $ka\ll1$, so
+$K(\bm k)\simeq r+c k^2+\cdots$; inverse Fourier transformation gives the
+Ginzburg--Landau gradient term.
+}{0.475}
 \end{mytikzbox}
 
-%=========================================================
-% LANGEVIN TO FOKKER--PLANCK
-%=========================================================
+\newpage
+\begin{center}{\large\bfseries Correlations, Goldstone Modes and Interacting Gases}\end{center}
 
-\begin{mytikzbox}{Langevin and Fokker--Planck equations}{
-For the Itô stochastic differential equation
+\begin{mytikzbox}{Gaussian functional integrals and Green functions}{
+For a positive operator $K$ and dimensionless source $J$,
 \[
-dx
-=
-A(x,t)\,dt
-+
-B(x,t)\,dW_t,
+Z[J]=\int\mathcal D\phi\,
+\exp\!\left[-\frac12\phi K\phi+J\phi\right]
+=Z[0]\exp\!\left(\frac12J K^{-1}J\right).
 \]
-with
 \[
-\langle dW_t\rangle=0,
+\avg{\phi(x)}_J=\frac{\delta\ln Z}{\delta J(x)},\qquad
+G_c(x,y)=\frac{\delta^2\ln Z}{\delta J(x)\delta J(y)}=K^{-1}(x,y).
+\]
+For the Gaussian GL theory,
+\[
+K(\bm k)=r+ck^2,
+\qquad \widetilde G(\bm k)=\frac1{r+ck^2},
+\qquad \xi=\sqrt{c/r}.
+\]
+At large $R=|\bm x|$,
+\[
+G(R)\sim\frac{\e^{-R/\xi}}{R^{(d-1)/2}}
+\quad (R\gg\xi),
 \qquad
-\langle dW_t^2\rangle=dt,
+G(R)\sim R^{-(d-2)}\quad(r=0,\ d>2).
 \]
-the Fokker--Planck equation is
+If the physical field couples as $-h\int\phi$, then
 \[
-\frac{\partial P}{\partial t}
-=
--\frac{\partial}{\partial x}
-\left[
-A(x,t)P
-\right]
-+
-\frac{1}{2}
-\frac{\partial^2}{\partial x^2}
-\left[
-B^2(x,t)P
-\right].
+\chi=\frac{\partial\avg\phi}{\partial h}
+=\beta\int\dd^dx\,G_c(x,0)=\beta\widetilde G(0).
 \]
-
-Thus,
-\[
-D^{(1)}=A,
-\qquad
-D^{(2)}=\frac{B^2}{2}.
-\]
-
-For additive noise,
-\[
-\dot x=A(x)+\eta(t),
-\]
-\[
-\langle\eta(t)\rangle=0,
-\qquad
-\langle\eta(t)\eta(t')\rangle
-=
-2D\delta(t-t'),
-\]
-one obtains
-\[
-\frac{\partial P}{\partial t}
-=
--\partial_x(AP)+D\partial_x^2P.
-\]
-}{0.46}
+When $J=\beta h$ is used as the source, the same statement is
+$\partial\avg\phi/\partial J=\widetilde G(0)$.
+}{0.475}
 \end{mytikzbox}
 
-%=========================================================
-% MASTER EQUATION
-%=========================================================
-
-\begin{mytikzbox}{Master equation}{
-For discrete states $n$,
+\begin{mytikzbox}{Goldstone modes}{
+For an $O(n)$ field,
 \[
-\frac{dP_n}{dt}
-=
-\sum_m
-\left[
-W_{n\leftarrow m}P_m
--
-W_{m\leftarrow n}P_n
-\right].
+\mathcal F=\int\dd^dx\left[
+\frac c2(\grad\bm\phi)^2+\frac r2\bm\phi^2+
+\frac u4(\bm\phi^2)^2\right],\qquad r<0.
 \]
-
-Probability conservation:
+Choose $\avg{\bm\phi}=v\hat e_1$, $v^2=-r/u$, and decompose
 \[
-\sum_nP_n=1,
-\qquad
-\sum_n\frac{dP_n}{dt}=0.
+\bm\phi=(v+\sigma,\pi_1,\ldots,\pi_{n-1}).
 \]
-
-A stationary distribution satisfies
+Quadratic fluctuations:
 \[
-\frac{dP_n^{\mathrm{st}}}{dt}=0.
+m_L^2=2|r|\quad(\sigma\text{, longitudinal}),
+\qquad m_T^2=0\quad(\pi_a\text{, transverse}).
 \]
-
-Detailed balance is the stronger condition
-\[
-W_{n\leftarrow m}P_m^{\mathrm{eq}}
-=
-W_{m\leftarrow n}P_n^{\mathrm{eq}}
-\]
-for every pair $n,m$.
-
-Detailed balance implies stationarity, but stationarity does
-not necessarily imply detailed balance.
-}{0.46}
+Thus breaking $G\to H$ gives $\dim G-\dim H$ Goldstone modes
+($n-1$ for $O(n)\to O(n-1)$), with
+$G_T(k)\sim1/(ck^2)$. They are fluctuations along the degenerate vacuum
+manifold and cost only gradient energy at long wavelength.
+}{0.475}
 \end{mytikzbox}
 
-%=========================================================
-% METROPOLIS
-%=========================================================
+\begin{mytikzbox}{Upper/lower critical dimensions and Ginzburg criterion}{
+Goldstone fluctuations scale as
+\[
+\avg{\pi^2}\sim\int_{k_{\min}}\frac{\dd^dk}{k^2}.
+\]
+This diverges in the infrared for $d\le2$, destroying finite-$T$ continuous
+symmetry breaking for short-range systems (Mermin--Wagner). Hence
+$d_\ell=2$ for $O(n\ge2)$; for discrete Ising symmetry $d_\ell=1$.
 
-\begin{mytikzbox}{Metropolis algorithm}{
-For a configuration $C$ with energy $E(C)$, propose
+For $\phi^4$, the dimensionless interaction at scale $\xi$ behaves as
 \[
-C\longrightarrow C'.
+g(\xi)\sim \frac{u\kb T}{c^2}\,\xi^{4-d}.
 \]
-
-The energy difference is
-\[
-\Delta E=E(C')-E(C).
-\]
-
-For a symmetric proposal probability, accept with probability
-\[
-A(C\to C')
-=
-\min\left\{
-1,e^{-\beta\Delta E}
-\right\}.
-\]
-
-Equivalently,
-\[
-\Delta E\leq0
-\quad\Longrightarrow\quad
-\text{always accept},
-\]
-\[
-\Delta E>0
-\quad\Longrightarrow\quad
-\text{accept with probability }
-e^{-\beta\Delta E}.
-\]
-
-This choice satisfies detailed balance with
-\[
-P_{\mathrm{eq}}(C)
-=
-\frac{e^{-\beta E(C)}}{Z}.
-\]
-}{0.46}
+Mean field is self-consistent when $g(\xi)\ll1$ (Ginzburg criterion).
+Therefore $d_c=4$: for $d>4$ fluctuations become irrelevant near criticality;
+at $d=4$ logarithmic corrections occur; for $d<4$ non-mean-field exponents
+appear. Hyperscaling generally fails above $d_c$.
+}{0.475}
 \end{mytikzbox}
 
-%=========================================================
-% CLUSTER AND VIRIAL EXPANSIONS
-%=========================================================
+\begin{mytikzbox}{Mayer expansion and linked clusters}{
+For pair interactions $U=\sum_{i<j}u(r_{ij})$ define
+\[
+f_{ij}=\e^{-\beta u(r_{ij})}-1,
+\qquad \e^{-\beta U}=\prod_{i<j}(1+f_{ij}).
+\]
+Each term corresponds to a graph: particles are vertices and $f_{ij}$ are edges.
+The configurational integral is a sum over all graphs. Every graph factorizes
+into connected components; exponentiating the connected-cluster sum gives
+\[
+\ln\Xi=V\sum_{\ell\ge1}b_\ell z^\ell,
+\quad
+\beta P=\sum_{\ell\ge1}b_\ell z^\ell,
+\quad
+n=\sum_{\ell\ge1}\ell b_\ell z^\ell,
+\]
+where this convention absorbs the powers of $\lambda_T$ into $z,b_\ell$.
+The logarithm keeps only connected clusters because disconnected pieces are
+products generated by the exponential.
 
-\begin{mytikzbox}{Cluster and virial expansions}{
-For a classical interacting gas,
+For a partition with $n_k$ clusters of size $k$,
+$\sum_kkn_k=N$ and
 \[
-e^{-\beta U}
-=
-\prod_{i<j}
-\left(1+f_{ij}\right),
+\Omega_N(\{n_k\})=
+\frac{N!}{\prod_k(k!)^{n_k}n_k!}.
 \]
-where the Mayer function is
-\[
-f_{ij}
-=
-e^{-\beta u(r_{ij})}-1.
-\]
+Small parameters: weak/high-$T$ interactions ($|f|\ll1$) and, more generally,
+low density $nR^d\ll1$ for interaction range $R$.
+}{0.475}
+\end{mytikzbox}
 
-The pressure has the activity expansion
+\begin{mytikzbox}{Virial expansion and basic coefficients}{
+Eliminate fugacity between $P(z)$ and $n(z)$:
 \[
-\beta P
-=
-\sum_{\ell=1}^{\infty}
-b_\ell z^\ell,
+\beta P=n+B_2n^2+B_3n^3+\cdots.
 \]
-while the density is
-\[
-\rho
-=
-\sum_{\ell=1}^{\infty}
-\ell b_\ell z^\ell.
-\]
-
-The virial expansion is
-\[
-\frac{\beta P}{\rho}
-=
-1+B_2\rho+B_3\rho^2+\cdots.
-\]
-
-Relations between cluster and virial coefficients:
-\[
-B_2=-\frac{b_2}{b_1^2},
-\]
-\[
-B_3
-=
-\frac{4b_2^2}{b_1^4}
--
-\frac{2b_3}{b_1^3}.
-\]
-
-With the common convention $b_1=1$,
+With $\beta P=z+b_2z^2+b_3z^3+\cdots$,
 \[
 B_2=-b_2,
-\qquad
-B_3=4b_2^2-2b_3.
+\qquad B_3=4b_2^2-2b_3.
 \]
-
-For a pair potential,
+Direct irreducible-diagram formulas for a translation-invariant pair potential:
 \[
-B_2
-=
--\frac{1}{2}
-\int d^dr\,
-\left[
-e^{-\beta u(r)}-1
-\right].
+B_2=-\frac12\int\dd^dr\,f(r),
 \]
-}{0.46}
+\[
+B_3=-\frac13\int\dd^dr_{12}\dd^dr_{13}\,
+ f_{12}f_{13}f_{23}.
+\]
+The virial expansion is more useful experimentally because it is an expansion in
+the measurable density rather than fugacity. Positive coefficients raise $P$ above
+the ideal-gas value (a ``harder'' equation of state); attractions tend to lower $B_2$.
+The Boyle temperature satisfies $B_2(T_B)=0$.
+
+Hard spheres of diameter $\sigma$ in 3D:
+\[
+B_2=\frac{2\pi}{3}\sigma^3,
+\qquad B_3=\frac{5\pi^2}{18}\sigma^6=\frac58B_2^2.
+\]
+For $d$-dimensional hard cores,
+$B_2=\tfrac12V_d(\sigma)$,
+$V_d(R)=\pi^{d/2}R^d/\Gamma(d/2+1)$.
+}{0.475}
 \end{mytikzbox}
+
+\begin{mytikzbox}{Perturbative-expansion checklist}{
+\begin{itemize}
+\item \textbf{Laplace/low-$T$:} expand about the dominant minimum; small width
+$\Delta x\sim N^{-1/2}$ or $\beta^{-1/2}$.
+\item \textbf{Mayer/cluster:} expand $\prod(1+f_{ij})$; controlled by weak
+bonds/high $T$ and low density.
+\item \textbf{Virial:} expand in $nR^d$; invert the fugacity series carefully.
+\item \textbf{Landau:} expand in a small order parameter and long gradients near a
+continuous transition; retain all symmetry-allowed terms needed for stability.
+\end{itemize}
+}{0.475}
+\end{mytikzbox}
+
+\newpage
+\begin{center}{\large\bfseries Stochastic Processes, Noise and Path Integrals}\end{center}
+
+\begin{mytikzbox}{Markov processes and Chapman--Kolmogorov}{
+A process is Markovian when the future conditioned on the present is independent
+of the past:
+\[
+P(x_n,t_n|x_{n-1},t_{n-1};\ldots;x_0,t_0)
+=P(x_n,t_n|x_{n-1},t_{n-1}).
+\]
+Transition kernels obey Chapman--Kolmogorov:
+\[
+P(x_2,t_2|x_0,t_0)=\int\dd x_1\,
+P(x_2,t_2|x_1,t_1)P(x_1,t_1|x_0,t_0).
+\]
+For a homogeneous discrete chain, $\bm P_{n+1}=T\bm P_n$,
+$\sum_iT_{ij}=1$. A stationary distribution is an eigenvector with eigenvalue
+$1$; modes with $|\lambda|<1$ decay. Brownian motion is approximately Markovian
+when molecular collision times are much shorter than the observed time scale.
+}{0.475}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Wiener process and Gaussian white noise}{
+A Wiener process $W(t)$ has $W(0)=0$, continuous paths, independent stationary
+increments, and
+\[
+W(t+\Delta t)-W(t)\sim\mathcal N(0,\Delta t),
+\quad \avg{W(t)}=0,
+\quad \avg{W(t)W(s)}=\min(t,s).
+\]
+Gaussian white noise is the distributional derivative $\eta(t)=\dot W(t)$:
+\[
+\avg{\eta(t)}=0,
+\qquad \avg{\eta(t)\eta(t')}=\delta(t-t').
+\]
+For strength $\Lambda$, write $\xi(t)=\sqrt\Lambda\,\eta(t)$, so
+$\avg{\xi(t)\xi(t')}=\Lambda\delta(t-t')$. On a grid,
+\[
+\avg{\xi_i\xi_j}=\frac{\Lambda}{\Delta t}\delta_{ij},
+\qquad
+\mathcal P[\xi]\propto
+\exp\!\left[-\frac1{2\Lambda}\int\xi(t)^2\dd t\right].
+\]
+White noise is not an ordinary function; only its time integrals are finite.
+}{0.475}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Multivariate Gaussian identities}{
+For symmetric positive $A$ and mean zero,
+\[
+p(\bm x)=\frac{\sqrt{\det A}}{(2\pi)^{n/2}}
+\exp\!\left(-\frac12\bm x^TA\bm x\right),
+\quad C=A^{-1}.
+\]
+\[
+I(\bm b)=\avg{\e^{\bm b^T\bm X}}
+=\exp\!\left(\frac12\bm b^TC\bm b\right),
+\quad \avg{X_iX_j}=C_{ij}.
+\]
+All odd centered moments vanish. Wick/Isserlis theorem:
+\[
+\avg{X_1X_2X_3X_4}=C_{12}C_{34}+C_{13}C_{24}+C_{14}C_{23}.
+\]
+For Gaussian variables, zero covariance implies independence.
+}{0.475}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Langevin equations and moments}{
+Underdamped Brownian particle:
+\[
+m\dot v=-\gamma v+F(x)+\xi(t),
+\qquad \avg{\xi(t)\xi(t')}=2\gamma\kb T\delta(t-t').
+\]
+For $F=0$, $\tau_B=m/\gamma$ and
+\[
+v(t)=v_0\e^{-t/\tau_B}+\frac1m\int_0^t
+\e^{-(t-s)/\tau_B}\xi(s)\dd s,
+\]
+\[
+\avg v=v_0\e^{-t/\tau_B},
+\quad
+\Var(v)=\frac{\kb T}{m}\left(1-\e^{-2t/\tau_B}\right).
+\]
+Long times: $\avg{[x(t)-x(0)]^2}\simeq2Dt$ in one dimension,
+$D=\kb T/\gamma$.
+
+Overdamped form:
+\[
+\dd x=a(x,t)\dd t+b(x,t)\dd W_t.
+\]
+For It\^o calculus,
+\[
+\frac{\dd}{\dd t}\avg{A(x)}=
+\avg{aA'+\frac12b^2A''}.
+\]
+Taking $A=x,x^2,\ldots$ gives moment equations without solving the full PDF.
+}{0.475}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Gaussian path integrals}{
+Finite-dimensional identity:
+\[
+\int\dd^nx\,\e^{-\frac12\bm x^TA\bm x+\bm J^T\bm x}
+=\sqrt{\frac{(2\pi)^n}{\det A}}
+\exp\!\left(\frac12\bm J^TA^{-1}\bm J\right).
+\]
+Functional analogue:
+\[
+\int\mathcal D\phi\,\e^{-\frac12\phi K\phi+J\phi}
+\propto(\det K)^{-1/2}\e^{\frac12J K^{-1}J}.
+\]
+For additive-noise dynamics $\dot x=a(x,t)+\xi(t)$ with
+$\avg{\xi(t)\xi(t')}=\Lambda\delta(t-t')$,
+\[
+\mathcal P[x]\propto\mathcal J[x]
+\exp\!\left[-\frac1{2\Lambda}\int
+(\dot x-a(x,t))^2\dd t\right].
+\]
+The Jacobian $\mathcal J[x]$ and possible drift correction depend on the time
+discretization; for linear/additive cases it is often an irrelevant constant.
+Functional delta representation:
+\[
+\delta[F]=\int\mathcal D\hat x\,
+\exp\!\left(i\int\hat x(t)F(t)\dd t\right).
+\]
+}{0.475}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Kramers--Moyal expansion}{
+Let $\Delta x=x(t+\tau)-x(t)$ conditioned on $x(t)=x$. Define
+\[
+D^{(n)}(x,t)=\lim_{\tau\to0}
+\frac1{n!\tau}\avg{(\Delta x)^n|x(t)=x}.
+\]
+Then
+\[
+\partial_tP(x,t)=\sum_{n=1}^\infty(-\partial_x)^n
+[D^{(n)}(x,t)P(x,t)].
+\]
+For the It\^o SDE $\dd x=a\dd t+b\dd W$,
+\[
+D^{(1)}=a,
+\qquad D^{(2)}=\frac12b^2,
+\qquad D^{(n\ge3)}=0,
+\]
+so
+\[
+\partial_tP=-\partial_x(aP)+\frac12\partial_x^2(b^2P).
+\]
+\textbf{Pawula theorem:} a finite Kramers--Moyal truncation that preserves
+positivity can stop after first or second order only. In particular, if
+$D^{(4)}=0$, all $D^{(n\ge3)}$ vanish and the Fokker--Planck truncation is exact.
+}{0.475}
+\end{mytikzbox}
+
+\newpage
+\begin{center}{\large\bfseries Fokker--Planck, Master Equations and Monte Carlo}\end{center}
+
+\begin{mytikzbox}{Fokker--Planck equation and probability current}{
+For It\^o $\dd x=a(x,t)\dd t+b(x,t)\dd W_t$,
+\[
+\partial_tP=-\partial_x[aP]+\frac12\partial_x^2[b^2P]
+=-\partial_xJ,
+\]
+\[
+J=aP-\frac12\partial_x(b^2P).
+\]
+In $d$ dimensions, with $\dd x_i=a_i\dd t+B_{i\alpha}\dd W_\alpha$ and
+$D_{ij}=(BB^T)_{ij}$,
+\[
+\partial_tP=-\partial_i(a_iP)+\frac12\partial_i\partial_j(D_{ij}P).
+\]
+Boundary conditions: reflecting $J\cdot\hat n=0$; absorbing $P=0$.
+Stationarity requires $\partial_xJ=0$; equilibrium with no net current has $J=0$.
+For additive overdamped motion
+\[
+\dd x=\frac{F(x)}\gamma\dd t+\sqrt{2D}\dd W,
+\qquad D=\frac{\kb T}{\gamma},
+\]
+$F=-U'$ gives
+\[
+P_{\rm eq}(x)=Z^{-1}\e^{-\beta U(x)}.
+\]
+}{0.475}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Ornstein--Uhlenbeck / harmonic solution}{
+For
+\[
+\dd x=-\kappa x\dd t+\sqrt{2D}\dd W_t,
+\qquad P(x,0)=\delta(x-x_0),
+\]
+\[
+\mu(t)=x_0\e^{-\kappa t},
+\qquad \sigma^2(t)=\frac D\kappa(1-\e^{-2\kappa t}),
+\]
+\[
+P(x,t)=\frac1{\sqrt{2\pi\sigma^2(t)}}
+\exp\!\left[-\frac{(x-\mu(t))^2}{2\sigma^2(t)}\right].
+\]
+At long times $P_{\rm eq}\propto\e^{-\kappa x^2/(2D)}$.
+For $\gamma\dot x=-kx+\xi$, one has $\kappa=k/\gamma$ and
+$D=\kb T/\gamma$, hence $\sigma^2(\infty)=\kb T/k$.
+Free diffusion ($\kappa=0$):
+$P=(4\pi Dt)^{-1/2}\exp[-(x-x_0)^2/(4Dt)]$.
+}{0.475}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Klein--Kramers equation}{
+For
+\[
+\dot x=v,
+\qquad m\dot v=-\gamma v-U'(x)+\xi(t),
+\qquad \avg{\xi(t)\xi(t')}=2\gamma\kb T\delta(t-t'),
+\]
+\[
+\partial_tP=-v\partial_xP+\frac1mU'(x)\partial_vP
++\frac\gamma m\partial_v(vP)
++\frac{\gamma\kb T}{m^2}\partial_v^2P.
+\]
+The stationary solution is Maxwell--Boltzmann:
+\[
+P_{\rm eq}(x,v)=Z^{-1}
+\exp\!\left[-\beta\left(\frac12mv^2+U(x)\right)\right].
+\]
+In the strongly overdamped limit, eliminate $v$ to obtain the Smoluchowski
+Fokker--Planck equation for $x$.
+}{0.475}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Continuous-time master equation}{
+Let $W_{ij}$ be the transition rate $j\to i$. Then
+\[
+\dot P_i(t)=\sum_{j\ne i}\left[W_{ij}P_j-W_{ji}P_i\right]
+=\sum_jL_{ij}P_j,
+\]
+where $L_{ij}=W_{ij}$ for $i\ne j$ and
+$L_{ii}=-\sum_{k\ne i}W_{ki}$, so $\sum_iL_{ij}=0$.
+A stationary state satisfies $L\bm P^{\rm st}=0$.
+The zero eigenvalue is the stationary mode; the nonzero eigenvalues determine
+relaxation times. Multiple closed communicating classes may give multiple
+stationary states. Probability conservation follows by summing the master equation
+over $i$.
+}{0.475}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Detailed balance}{
+Detailed balance with respect to $P^{\rm eq}$ means pairwise cancellation:
+\[
+W_{ij}P_j^{\rm eq}=W_{ji}P_i^{\rm eq}
+\qquad\forall i,j.
+\]
+It is sufficient for stationarity but stronger than stationarity: a stationary
+nonequilibrium state may have circulating probability currents.
+For the canonical distribution,
+\[
+\frac{W_{ij}}{W_{ji}}=\frac{P_i^{\rm eq}}{P_j^{\rm eq}}
+=\e^{-\beta(E_i-E_j)}.
+\]
+Kolmogorov cycle criterion (for positive rates): detailed balance holds iff the
+product of rates around every closed cycle equals the product around the reversed
+cycle.
+}{0.475}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Metropolis and Metropolis--Hastings}{
+To sample a target $\pi_i$:
+\begin{enumerate}
+\item From state $i$, propose $j$ using $q(i\to j)$.
+\item Accept with
+\[
+A(i\to j)=\min\!\left[1,
+\frac{\pi_jq(j\to i)}{\pi_iq(i\to j)}\right].
+\]
+Otherwise remain at $i$.
+\item Discard burn-in; estimate observables from the correlated chain and account
+for autocorrelation.
+\end{enumerate}
+For symmetric proposals and $\pi_i\propto\e^{-\beta E_i}$,
+\[
+A(i\to j)=\min[1,\e^{-\beta(E_j-E_i)}].
+\]
+This construction obeys detailed balance. To converge to a unique target, the chain
+must be irreducible and aperiodic. Smaller proposals accept often but mix slowly;
+very large proposals are usually rejected.
+}{0.475}
+\end{mytikzbox}
+
+\begin{mytikzbox}{Fast conceptual checks}{
+\begin{itemize}
+\item \textbf{Stationary $\neq$ equilibrium:} stationarity requires zero divergence of
+probability current; equilibrium detailed balance requires each pairwise current to
+vanish.
+\item \textbf{First-order transition:} discontinuous order parameter/latent heat;
+coexistence and finite $\xi$ generically. \textbf{Continuous transition:} no latent
+heat; $\xi\to\infty$ and scale invariance.
+\item \textbf{Susceptibility:} response to the conjugate field; equal to the integrated
+connected correlation function (up to the explicit $\beta$ convention).
+\item \textbf{Connected/cumulant:} derivatives of $\ln Z[J]$ generate connected
+correlators; derivatives of $Z[J]$ generate ordinary moments.
+\item \textbf{Correlation length:} exponential decay scale away from criticality;
+subleading transfer-matrix eigenvalue or inverse Gaussian mass.
+\item \textbf{Noise strength:} always track whether the convention is
+$\avg{\xi\xi}=\Lambda\delta$ or $2D\delta$; this changes factors of $2$ in FPE.
+\end{itemize}
+}{0.475}
+\end{mytikzbox}
+\pagebreak
+\input{Algebra}
+\end{multicols*}
+\end{document}
