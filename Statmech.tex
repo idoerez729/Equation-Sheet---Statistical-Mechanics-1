@@ -769,57 +769,190 @@ Taking $A=x,x^2,\ldots$ gives moment equations without solving the full PDF.
 \end{mytikzbox}
 
 \begin{mytikzbox}{Gaussian path integrals}{0.475}
-Finite-dimensional identity:
+A path integral is an ordinary multidimensional integral with one variable for
+each time or spatial point:
 \[
-\int\dd^nx\,\e^{-\frac12\bm x^TA\bm x+\bm J^T\bm x}
-=\sqrt{\frac{(2\pi)^n}{\det A}}
-\exp\!\left(\frac12\bm J^TA^{-1}\bm J\right).
+\int \mathcal{D}\phi
+\sim
+\lim_{N\to\infty}\int\prod_{i=1}^{N}\dd\phi_i.
 \]
-Functional analogue:
+
+For an ordinary Gaussian integral,
 \[
-\int\mathcal D\phi\,\e^{-\frac12\phi K\phi+J\phi}
-\propto(\det K)^{-1/2}\e^{\frac12J K^{-1}J}.
+\int \dd^n x\,
+\e^{-\frac{1}{2}\bm{x}^{T}A\bm{x}+\bm{J}^{T}\bm{x}}
+=
+\sqrt{\frac{(2\pi)^n}{\det A}}\,
+\e^{\frac{1}{2}\bm{J}^{T}A^{-1}\bm{J}}.
 \]
-For additive-noise dynamics $\dot x=a(x,t)+\xi(t)$ with
-$\avg{\xi(t)\xi(t')}=\Lambda\delta(t-t')$,
+The functional analogue is
 \[
-\mathcal P[x]\propto\mathcal J[x]
-\exp\!\left[-\frac1{2\Lambda}\int
-(\dot x-a(x,t))^2\dd t\right].
+\int \mathcal{D}\phi\,
+\e^{-\frac{1}{2}\int \phi K\phi+\int J\phi}
+\propto
+(\det K)^{-1/2}
+\e^{\frac{1}{2}\int J K^{-1}J}.
 \]
-The Jacobian $\mathcal J[x]$ and possible drift correction depend on the time
-discretization; for linear/additive cases it is often an irrelevant constant.
-Functional delta representation:
+Thus \(K^{-1}\) is the covariance, or Green's function, of the Gaussian field.
+
+For the Langevin equation
 \[
-\delta[F]=\int\mathcal D\hat x\,
-\exp\!\left(i\int\hat x(t)F(t)\dd t\right).
+\dot{x}(t)=a(x,t)+\xi(t),
+\qquad
+\avg{\xi(t)\xi(t')}=\Lambda\delta(t-t'),
 \]
+a trajectory \(x(t)\) requires the noise realization
+\[
+\xi(t)=\dot{x}(t)-a(x,t).
+\]
+Since Gaussian white noise has probability
+\[
+\mathcal{P}[\xi]
+\propto
+\exp\left[
+-\frac{1}{2\Lambda}\int \xi(t)^2\,\dd t
+\right],
+\]
+the corresponding trajectory probability is
+\[
+\mathcal{P}[x]
+\propto
+\mathcal{J}[x]\,
+\exp\left[
+-\frac{1}{2\Lambda}
+\int
+\left(\dot{x}(t)-a(x,t)\right)^2
+\dd t
+\right].
+\]
+Trajectories close to the deterministic equation
+\[
+\dot{x}(t)=a(x,t)
+\]
+are therefore the most probable.
+
+A functional delta enforces an equation at every time:
+\[
+\delta[F]
+\propto
+\int \mathcal{D}\hat{x}\,
+\exp\left[
+i\int \hat{x}(t)F(t)\,\dd t
+\right].
+\]
+For example, choosing
+\[
+F(t)=\dot{x}(t)-a(x,t)-\xi(t)
+\]
+imposes the Langevin equation inside the path integral.
+
+The Jacobian \(\mathcal{J}[x]\) depends on the discretization convention and is
+often constant for additive or linear noise.
 \end{mytikzbox}
 
 \begin{mytikzbox}{Kramers--Moyal expansion}{0.475}
-Let $\Delta x=x(t+\tau)-x(t)$ conditioned on $x(t)=x$. Define
+Suppose that during a short time interval \(\tau\), a stochastic variable changes by
 \[
-D^{(n)}(x,t)=\lim_{\tau\to0}
-\frac1{n!\tau}\avg{(\Delta x)^n|x(t)=x}.
+\Delta x=x(t+\tau)-x(t),
 \]
-Then
+given that it started at \(x(t)=x\).
+
+The short-time motion can be characterized by its moments:
 \[
-\partial_tP(x,t)=\sum_{n=1}^\infty(-\partial_x)^n
-[D^{(n)}(x,t)P(x,t)].
+\avg{\Delta x\mid x(t)=x},
+\qquad
+\avg{(\Delta x)^2\mid x(t)=x},
+\qquad
+\avg{(\Delta x)^3\mid x(t)=x},
+\ldots
 \]
-For the It\^o SDE $\dd x=a\dd t+b\dd W$,
+
+The Kramers--Moyal coefficients measure how quickly these moments grow:
+\[
+D^{(n)}(x,t)
+=
+\lim_{\tau\to0}
+\frac{1}{n!\tau}
+\avg{(\Delta x)^n\mid x(t)=x}.
+\]
+
+In particular,
+\[
+D^{(1)}
+=
+\lim_{\tau\to0}\frac{\avg{\Delta x}}{\tau}
+\]
+is the local average velocity, or drift, while
+\[
+D^{(2)}
+=
+\lim_{\tau\to0}\frac{\avg{(\Delta x)^2}}{2\tau}
+\]
+measures the local spreading due to randomness.
+
+These short-time moments determine the evolution of the probability density:
+\[
+\partial_tP(x,t)
+=
+\sum_{n=1}^{\infty}
+(-\partial_x)^n
+\left[D^{(n)}(x,t)P(x,t)\right].
+\]
+If \(D^{(n)}=0\) for \(n\geq3\), this truncates to the \textbf{Fokker--Planck equation}
+\[
+\partial_tP
+=
+-\partial_x\bigl(D^{(1)}P\bigr)
++
+\partial_x^2\bigl(D^{(2)}P\bigr).
+\]
+
+For the It\^o stochastic equation
+\[
+\dd x=a(x,t)\dd t+b(x,t)\dd W,
+\]
+the short-time change is
+\[
+\Delta x\simeq a\tau+b\Delta W,
+\]
+with
+\[
+\avg{\Delta W}=0,
+\qquad
+\avg{(\Delta W)^2}=\tau.
+\]
+Therefore,
+\[
+\avg{\Delta x}\simeq a\tau,
+\qquad
+\avg{(\Delta x)^2}\simeq b^2\tau,
+\]
+and all higher moments vanish after division by \(\tau\) in the limit
+\(\tau\to0\). Hence,
 \[
 D^{(1)}=a,
-\qquad D^{(2)}=\frac12b^2,
-\qquad D^{(n\ge3)}=0,
+\qquad
+D^{(2)}=\frac{1}{2}b^2,
+\qquad
+D^{(n)}=0
+\quad\text{for }n\geq3.
 \]
-so
+
+Substituting these coefficients recovers
 \[
-\partial_tP=-\partial_x(aP)+\frac12\partial_x^2(b^2P).
+\partial_tP
+=
+-\partial_x(aP)
++
+\frac{1}{2}\partial_x^2(b^2P).
 \]
-\textbf{Pawula theorem:} a finite Kramers--Moyal truncation that preserves
-positivity can stop after first or second order only. In particular, if
-$D^{(4)}=0$, all $D^{(n\ge3)}$ vanish and the Fokker--Planck truncation is exact.
+
+Thus, \(a\) transports probability, while \(b\) causes probability to spread.
+
+\textbf{Pawula theorem:}
+A consistent finite truncation can contain either only the drift term, or the drift
+and diffusion terms. One cannot consistently stop at third or fourth order while
+preserving \(P(x,t)\geq0\).
 \end{mytikzbox}
 
 % \newpage
