@@ -42,11 +42,9 @@
 =\frac{\sin\theta}{1+\cos\theta}
 =\frac{1-\cos\theta}{\sin\theta}
 \end{gather*}
-\vspace{-10pt}
 \end{mytikzbox}
 
 \begin{mytikzbox}{Powers of Trigonometric Functions}{0.46}
-\vspace{-7pt}
 \begin{gather*}
 \cos^2(x)=\frac{1}{2}+\frac{1}{2}\cos(2x)
 \qquad
@@ -56,7 +54,6 @@
 \qquad
 \sin^3(x)=\frac{3}{4}\sin(x)-\frac{1}{4}\sin(3x)
 \end{gather*}
-\vspace{-12pt}
 \end{mytikzbox}
 
 \begin{mytikzbox}{Functional Derivative}{0.46}
@@ -112,7 +109,6 @@ we obtain:
 % \end{mytikzbox}
 
 \begin{mytikzbox}{Integrals}{0.46}
-\vspace{-6pt}
 \begin{gather*}
 \int xe^{ax}\,\mathrm{d}x
 =
@@ -120,7 +116,7 @@ we obtain:
 \qquad
 \int x^2e^{ax}\,\mathrm{d}x
 =
-\frac{e^{ax}}{a}\left(x-\frac{1}{a}\right)
+\frac{e^{ax}}{a}\left(x^2-\frac{2x}{a}+\frac{2}{a^2}\right)
 \\
 \int x\cos(ax)\,\mathrm{d}x
 =
@@ -181,16 +177,27 @@ we obtain:
 \frac{e^{ax}}{a^2+b^2}
 \left(a\cos(bx)+b\sin(bx)\right)
 \end{gather*}
-\vspace{-13pt}
 \end{mytikzbox}
 
 \begin{mytikzbox}{Definite Integrals}{0.46}
-\vspace{-7pt}
 \begin{gather*}
 \int_{-\infty}^{\infty}e^{-\alpha x^2}\,\mathrm{d}x
 =
 \sqrt{\frac{\pi}{\alpha}}
 \qquad
+\int_{-\infty}^{\infty}x^2e^{-\alpha x^2}\,\mathrm{d}x
+=
+\frac{1}{2}\sqrt{\frac{\pi}{\alpha^3}}
+\\
+\int_{-\infty}^{\infty}x^{2n}e^{-\alpha x^2}\,\mathrm{d}x
+=
+\sqrt{\frac{\pi}{\alpha}}
+\frac{(2n-1)!!}{(2\alpha)^n}
+\qquad
+\int_{-\infty}^{\infty}x^{2n+1}e^{-\alpha x^2}\,\mathrm{d}x
+=
+0
+\\
 \int_{-\infty}^{\infty}
 e^{-\alpha x^2+i\beta x}\,\mathrm{d}x
 =
@@ -220,11 +227,9 @@ e^{-\frac{\beta^2}{4\alpha}}
 =
 f(b(x))\,b'(x)-f(a(x))\,a'(x)
 \end{gather*}
-\vspace{-15pt}
 \end{mytikzbox}
 
 \begin{mytikzbox}{Basic Differential Equations}{0.46}
-\vspace{-10pt}
 \begin{gather*}
 \ddot{Y}+\lambda^2Y=0
 \Rightarrow
@@ -235,10 +240,6 @@ Y=A\sin(\lambda x)+B\cos(\lambda x)
 Y=A\sinh(\lambda x)+B\sinh(\lambda x)
 =
 Ce^{\lambda x}+De^{-\lambda x}
-\\
-\dot{Y}+\lambda Y=0
-\Rightarrow
-Y=Ae^{\lambda x}
 \\
 \ddot{Y}+\lambda=0
 \Rightarrow
@@ -256,5 +257,4 @@ e^{-\int P(x)\,\mathrm{d}x}
 \int e^{\int P(x)\,\mathrm{d}x}Q(x)\,\mathrm{d}x+C
 \right)
 \end{gather*}
-\vspace{-13pt}
 \end{mytikzbox}

@@ -16,20 +16,23 @@
 \setlength{\parskip}{0.8pt}
 \setlength{\columnsep}{5mm}
 \setlength{\columnseprule}{0pt}
-\setlength{\abovedisplayskip}{1.5pt}
-\setlength{\belowdisplayskip}{1.5pt}
+\setlength{\abovedisplayskip}{0.75pt}
+\setlength{\belowdisplayskip}{0.75pt}
 \setlength{\abovedisplayshortskip}{0pt}
-\setlength{\belowdisplayshortskip}{1pt}
+\setlength{\belowdisplayshortskip}{0.5pt}
 \setlist[itemize]{leftmargin=3mm,itemsep=0pt,topsep=1pt,parsep=0pt}
 \setlist[enumerate]{leftmargin=4mm,itemsep=0pt,topsep=1pt,parsep=0pt}
 \renewcommand{\arraystretch}{0.93}
 \allowdisplaybreaks
 
 % Usage: \begin{mytikzbox}{Title}{width fraction} ... \end{mytikzbox}
-% breakable: boxes may split across columns/pages instead of floating wholly.
+% breakable across columns/pages; each fragment is a closed frame (no open ends).
+% width=\linewidth: column width inside multicol (ignore unused #2 for compat).
+% height fixed for=none: do not stretch broken segments into empty stubs.
 \newtcolorbox{mytikzbox}[2]{%
   enhanced jigsaw,
   breakable,
+  height fixed for=none,
   colback=white,
   colframe=black,
   boxrule=0.65pt,
@@ -37,12 +40,16 @@
   left=3.5pt,
   right=3.5pt,
   top=2pt,
-  bottom=2pt,
+  bottom=4pt,
   boxsep=2pt,
-  width=#2\textwidth,
-  before skip=1.2pt,
-  after skip=1.2pt,
+  width=\linewidth,
+  before skip=0.6pt,
+  after skip=0.6pt,
   halign=flush left,
+  pad before break=2pt,
+  pad after break=2pt,
+  toprule at break=0.65pt,
+  bottomrule at break=0.65pt,
   attach boxed title to top left={xshift=4pt,yshift*=-\tcboxedtitleheight/2},
   boxed title style={
     sharp corners,
@@ -72,8 +79,13 @@
 
 \begin{document}
 \fontsize{8.1}{8.8}\selectfont
+\setlength{\abovedisplayskip}{0.75pt}
+\setlength{\belowdisplayskip}{0.75pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0.5pt}
 \begin{multicols*}{2}
 \raggedcolumns
+\raggedbottom
 
 \begin{center}
 {\Large\bfseries Statistical Mechanics --- Formula Sheet}\\[-2pt]
@@ -81,67 +93,28 @@
 \end{center}
 
 \begin{mytikzbox}{Thermodynamics and potentials}{0.475}
-\textbf{Thermodynamic potentials}
-% \[
-%  \dd E=T\dd S-P\dd V+\mu\dd N,\qquad
-%  T=\left(\frac{\partial E}{\partial S}\right)_{V,N},\quad
-%  P=-\left(\frac{\partial E}{\partial V}\right)_{S,N}.
-% \]
-% \[
-% \begin{array}{c|c|c}
-% \text{potential}&\text{definition}&\text{differential}\\ \hline
-% E&E(S,V,N)&T\dd S-P\dd V+\mu\dd N\\
-% H&E+PV&T\dd S+V\dd P+\mu\dd N\\
-% F&E-TS&-S\dd T-P\dd V+\mu\dd N\\
-% G&E-TS+PV&-S\dd T+V\dd P+\mu\dd N\\
-% \Omega&F-\mu N&-S\dd T-P\dd V-N\dd\mu
-% \end{array}
-% \]
-% For an extensive system:
-% \[
-% E=TS-PV+\mu N,\qquad S\dd T-V\dd P+N\dd\mu=0,
-% \qquad G=\mu N,\quad\Omega=-PV.
-% \]
-% Maxwell relations follow by equality of mixed derivatives, e.g.
-% \[
-% \left(\frac{\partial S}{\partial V}\right)_T=
-% \left(\frac{\partial P}{\partial T}\right)_V,\qquad
-% \left(\frac{\partial S}{\partial P}\right)_T=-
-% \left(\frac{\partial V}{\partial T}\right)_P.
-% \]
-
+\textbf{Thermodynamic potentials.}
+Legendre: $p=\partial f/\partial x$,\ 
+$f^*(p)=px(p)-f(x(p))$.
 \begin{center}
-  \begin{tikzpicture}[
-      node distance=2cm and 3.5cm,
+\scalebox{0.62}{%
+\begin{tikzpicture}[
       main/.style={anchor=center},
       arrow/.style={thick, {Stealth}-{Stealth}},
       labelstyle/.style={midway, fill=white, inner sep=1pt}
   ]
-  
-  % Nodes
   \node[main] (A1) at (0,0) {$E(S,V,N)$};
-  \node[main] (A2) at (5,0) {$H(S,P,N)$};
-  
-  \node[main] (B1) at (0,-3) {$F(T,V,N)$};
-  \node[main] (B2) at (5,-3) {$G(T,P,N)$};
-  
-  \node[main] (C1) at (0,-6) {$\Omega(T,V,\mu)$};
-  
-  \node[align=left, anchor=west] at (1.7,-4.5) {
-      \textbf{Legendre transform:}\\
-      $p=\frac{\partial f}{\partial x}$
-      \\
-      $f^*(p)=px(p)-f(x(p))$
-  };
-  
-  % Arrows (reversed tails: draw from target to source)
+  \node[main] (A2) at (4.4,0) {$H(S,P,N)$};
+  \node[main] (B1) at (0,-2.6) {$F(T,V,N)$};
+  \node[main] (B2) at (4.4,-2.6) {$G(T,P,N)$};
+  \node[main] (C1) at (0,-5.2) {$\Omega(T,V,\mu)$};
   \draw[arrow] (A2) -- (A1) node[labelstyle, above] {$V\leftrightarrow P$};
   \draw[arrow] (B1) -- (A1) node[labelstyle, left] {$S\leftrightarrow T$};
   \draw[arrow] (B2) -- (B1) node[labelstyle, above] {$V\leftrightarrow P$};
   \draw[arrow] (C1) -- (B1) node[labelstyle, left] {$N\leftrightarrow \mu$};
   \draw[arrow] (A2) -- (B2) node[labelstyle, right] {$S\leftrightarrow T$};
-  \end{tikzpicture}\end{center}\;
-  \\[-32pt]
+\end{tikzpicture}}
+\end{center}
   \begin{align*}
   & E = TS - PV + \mu N & dE &= TdS - PdV + \mu dN\\
   & H = E + PV = TS + \mu N & dH &= TdS + VdP + \mu dN\\
@@ -227,6 +200,11 @@ T,V,\mu&\text{grand canonical}&\Omega
 \end{mytikzbox}
 
 \begin{mytikzbox}{Partition functions and derivatives}{0.475}
+With weights \(z^i\) and \(Z=\sum_i z^i\),
+\[
+\avg A \equiv \sum A_i p_i = Z^{-1}\sum_i A_i\,z^i.
+\]
+
 \textbf{Canonical ensemble $(T,V,N)$}
 \[
 Z_F=\sum_i\e^{-\beta E_i},\quad F=-\kb T\ln Z_F,
@@ -239,6 +217,32 @@ P=\kb T\,\partial_V\ln Z_F,
 \[
 \Var(E)=\partial_\beta^2\ln Z_F=\kb T^2C_V.
 \]
+\textbf{Cumulants / generating functions.}
+\[
+M_X(t)\equiv\avg{\e^{tX}},
+\quad
+K_X(t)\equiv\ln M_X(t),
+\]
+\[
+\avg{X^n}=M_X^{(n)}(0),
+\quad
+\kappa_n(X)=K_X^{(n)}(0).
+\]
+Canonical energy: $M_E(t)=Z_F(\beta-t)/Z_F(\beta)$, hence
+\[
+\kappa_n(E)=(-1)^n\partial_\beta^n\ln Z_F,
+\]
+so $\avg E=-\partial_\beta\ln Z_F$ and $\Var(E)=\partial_\beta^2\ln Z_F$.
+Grand canonical:
+\[
+\kappa_n(N)=\partial_{(\beta\mu)}^n\ln Z_\Omega=(z\partial_z)^n\ln Z_\Omega.
+\]
+For nonnegative integer $N$, the PGF is $G_N(z)=\avg{z^N}=\sum_n P_n z^n$,
+with $M_N(t)=\avg{\e^{tN}}=G_N(\e^t)$,
+$P_n=G_N^{(n)}(0)/n!$,
+$G_N'(1)=\avg N$,
+$G_N''(1)=\avg{N(N-1)}$.
+
 Classical phase space:
 \[
 Z_F=\frac1{N!h^{3N}}\int\prod_{i=1}^N\dd^3p_i\dd^3q_i\,
@@ -340,6 +344,12 @@ S=N\kb\left[\ln\left(\frac{V}{N\lambda_T^3}\right)+\frac52\right].
 \]
 Every independent quadratic term in $H$ contributes $\frac12\kb T$ to
 $U$ and $\frac12\kb$ to $C_V$.
+More generally (boundary terms vanishing),
+\[
+\avg{x_i\,\partial_{x_j}H}=\kb T\,\delta_{ij},
+\]
+so $H\supset ax^2$ gives $a\avg{x^2}=\tfrac12\kb T$
+(or $H\supset\tfrac12 a x^2$ gives $\tfrac12 a\avg{x^2}=\tfrac12\kb T$).
 \end{mytikzbox}
 
 \begin{mytikzbox}{Laplace / saddle-point method}{0.475}
@@ -348,6 +358,19 @@ For $N\gg1$, $\e^{-Nf(x)}$ is dominated by the minimum $x_*$ of $f$:
 I(N)=\int g(x)\e^{-Nf(x)}\dd x
 \simeq g(x_*)\e^{-Nf(x_*)}
 \sqrt{\frac{2\pi}{Nf''(x_*)}}.
+\]
+First correction ($f'(x_*)=0$, write $f_*=f(x_*)$, etc.):
+\[
+\begin{aligned}
+I(N)&\sim
+\e^{-Nf_*}\sqrt{\frac{2\pi}{Nf''_*}}
+\bigl[g_*+\tfrac1N\delta_1+\cdots\bigr],\\
+\delta_1&=
+\frac{g''_*}{2f''_*}
+-\frac{g'_*f'''_*}{2(f''_*)^2}
+-\frac{g_*f''''_*}{8(f''_*)^2}
++\frac{5g_*(f'''_*)^2}{24(f''_*)^3}.
+\end{aligned}
 \]
 In $d$ dimensions, with Hessian $H_{ij}=\partial_i\partial_jf(x_*)$,
 \[
@@ -358,50 +381,50 @@ Width $\Delta x\sim[Nf''(x_*)]^{-1/2}$;
 \textbf{small parameter:} $1/N$ (or $\beta$ at low $T$).
 Boundary / degenerate minima need a modified expansion.
 
-\textbf{Algorithm} (low $T$, central potential).
-Want
-\[
-I(\beta)=\int_{\mathbb{R}^3}\e^{-\beta U(|\mathbf q|)}\dd^3q,
-\qquad \beta\gg1,
-\]
-with a minimum of $U$ at $q_*$.
-\begin{enumerate}
-\item \textbf{Radial reduction:}
-\[
-I(\beta)=4\pi\int_0^\infty q^2\e^{-\beta U(q)}\dd q.
-\]
-\item \textbf{Taylor of $U$ about $q_*$:}
-\[
-U(q)=U_0+U_2(q-q_*)^2+U_3(q-q_*)^3+U_4(q-q_*)^4+\cdots,
-\]
-with $U_0=U(q_*)$, $U_2=\tfrac12 U''(q_*)$, etc.
-\item \textbf{Saddle:} set $x=q-q_*$; for $\beta\gg1$ only $x\sim\beta^{-1/2}$ contributes,
-\[
-I(\beta)\approx4\pi\e^{-\beta U_0}
-\int_{-\infty}^{\infty}(x+q_*)^2
-\exp\!\bigl(-\beta U_2 x^2-\beta U_3 x^3-\cdots\bigr)\dd x.
-\]
-\item \textbf{Gaussian moments + corrections:}
-\[
-\int_{-\infty}^{\infty}x^n\e^{-a x^2}\dd x=
-\begin{cases}
-\dfrac{(n-1)!!}{(2a)^{n/2}}\sqrt{\dfrac{\pi}{a}} & n\text{ even},\\[4pt]
-0 & n\text{ odd}.
-\end{cases}
-\]
-\item \textbf{Result:}
-\[
-I(\beta)\approx4\pi^{3/2}\e^{-\beta U_0}q_*^2\xi
-\bigl(1+A_2\xi^2+A_4\xi^4+\cdots\bigr),
-\]
-with $\xi=1/(\beta\sqrt{U_2})$ and $A_{2,4}$ fixed by higher derivatives of $U$ at $q_*$.
-\end{enumerate}
+% \textbf{Algorithm} (low $T$, central potential).
+% Want
+% \[
+% I(\beta)=\int_{\mathbb{R}^3}\e^{-\beta U(|\mathbf q|)}\dd^3q,
+% \qquad \beta\gg1,
+% \]
+% with a minimum of $U$ at $q_*$.
+% \begin{enumerate}
+% \item \textbf{Radial reduction:}
+% \[
+% I(\beta)=4\pi\int_0^\infty q^2\e^{-\beta U(q)}\dd q.
+% \]
+% \item \textbf{Taylor of $U$ about $q_*$:}
+% \[
+% U(q)=U_0+U_2(q-q_*)^2+U_3(q-q_*)^3+U_4(q-q_*)^4+\cdots,
+% \]
+% with $U_0=U(q_*)$, $U_2=\tfrac12 U''(q_*)$, etc.
+% \item \textbf{Saddle:} set $x=q-q_*$; for $\beta\gg1$ only $x\sim\beta^{-1/2}$ contributes,
+% \[
+% I(\beta)\approx4\pi\e^{-\beta U_0}
+% \int_{-\infty}^{\infty}(x+q_*)^2
+% \exp\!\bigl(-\beta U_2 x^2-\beta U_3 x^3-\cdots\bigr)\dd x.
+% \]
+% \item \textbf{Gaussian moments + corrections:}
+% \[
+% \int_{-\infty}^{\infty}x^n\e^{-a x^2}\dd x=
+% \begin{cases}
+% \dfrac{(n-1)!!}{(2a)^{n/2}}\sqrt{\dfrac{\pi}{a}} & n\text{ even},\\[4pt]
+% 0 & n\text{ odd}.
+% \end{cases}
+% \]
+% \item \textbf{Result:}
+% \[
+% I(\beta)\approx4\pi^{3/2}\e^{-\beta U_0}q_*^2\xi
+% \bigl(1+A_2\xi^2+A_4\xi^4+\cdots\bigr),
+% \]
+% with $\xi=1/(\beta\sqrt{U_2})$ and $A_{2,4}$ fixed by higher derivatives of $U$ at $q_*$.
+% \end{enumerate}
 
-\textbf{Stirling:} $N!=\int_0^\infty x^N\e^{-x}\dd x$ gives
-\[
-N!\simeq\sqrt{2\pi N}\,(N/\e)^N
-\left(1+\frac1{12N}+\cdots\right).
-\]
+% \textbf{Stirling:} $N!=\int_0^\infty x^N\e^{-x}\dd x$ gives
+% \[
+% N!\simeq\sqrt{2\pi N}\,(N/\e)^N
+% \left(1+\frac1{12N}+\cdots\right).
+% \]
 \end{mytikzbox}
 
 % \newpage
@@ -434,14 +457,23 @@ $S=\operatorname{diag}(1,-1)$:
 \[
 \avg{s_0s_r}=\frac{\Tr(S T^r S T^{N-r})}{\Tr T^N}.
 \]
-\textbf{At $h=0$:}
+If $T=\sum_a\lambda_a|a\rangle\langle a|$ with $|\lambda_0|>|\lambda_1|\ge\cdots$,
+then for $N\to\infty$
 \[
-\avg{s_0s_r}=\left(\frac{\lambda_-}{\lambda_+}\right)^r + \left(\frac{\lambda_+}{\lambda_-}\right)^{N-r}.
+\avg{A_0B_r}
+=\sum_a\left(\frac{\lambda_a}{\lambda_0}\right)^r
+\langle0|A|a\rangle\langle a|B|0\rangle,
 \]
-At $h=0$ and $N\to\infty$:
+so $\avg{A_0B_r}_c\sim(\lambda_1/\lambda_0)^r$ and
+$\xi^{-1}=-\ln|\lambda_1/\lambda_0|$.
+\textbf{At $h=0$:} with $q\equiv\lambda_-/\lambda_+$,
 \[
-\avg{s_0s_r}=(\tanh\beta J)^r=\e^{-r/\xi},
-\qquad \xi^{-1}=-\ln(\tanh\beta J)=\ln\left|\frac{\lambda_0}{\lambda_1}\right|.
+\avg{s_0s_r}=\frac{q^r+q^{N-r}}{1+q^N}.
+\]
+As $N\to\infty$:
+\[
+\avg{s_0s_r}=q^r=(\tanh\beta J)^r=\e^{-r/\xi},
+\qquad \xi^{-1}=-\ln|q|=-\ln(\tanh\beta J).
 \]
 A phase transition would require correlations to persist over arbitrarily large distances, i.e. $\xi\to\infty$. In the 1D Ising model, $|\lambda_1|<\lambda_0$ for every $T>0$, so $\xi$ remains finite and there is no finite-temperature transition. Generally, the subleading eigenvalue sets the slowest-decaying correction and therefore controls long-range correlations.
 \end{mytikzbox}
@@ -449,11 +481,19 @@ A phase transition would require correlations to persist over arbitrarily large 
 \begin{mytikzbox}{Ising mean-field theory}{0.475}
 Consider a system with nearest-neighbor interactions, \[ H_{\mathrm{int}}=-J\sum_{\langle i,j\rangle}s_i s_j. \] Define the fluctuation around the mean magnetization by \[ \delta s_i=s_i-m. \] Let \(d\) be the spatial dimension and \(z=2d\) the coordination number, i.e. the number of nearest neighbors of each site. 
 
-\textbf{Partition function:} \[ Z_G=\operatorname{tr}\exp\left\{ \beta\left( J\sum_{\langle i,j\rangle}s_i s_j +B\sum_i s_i \right) \right\}. \] Using \(s_i=m+\delta s_i\), using $[\cdots] = \delta s_i\delta s_j +m(\delta s_i+\delta s_j), +m^2$\[ Z_G= \operatorname{tr}\exp\left\{ \beta J\sum_{\langle i,j\rangle} \left[ \cdots \right] +\beta B\sum_i\delta s_i +\beta BNm \right\}. \] 
+\textbf{Partition function:} \[ Z_G=\operatorname{tr}\exp\left\{ \beta\left( J\sum_{\langle i,j\rangle}s_i s_j +B\sum_i s_i \right) \right\}. \] Using \(s_i=m+\delta s_i\), using $[\cdots] = \delta s_i\delta s_j +m(\delta s_i+\delta s_j)\, +m^2$\[ Z_G= \operatorname{tr}\exp\left\{ \beta J\sum_{\langle i,j\rangle} \left[ \cdots \right] +\beta B\sum_i\delta s_i +\beta BNm \right\}. \] 
 
-\textbf{Mean-field assumption:} \[ \delta s_i\delta s_j\approx0, \qquad s_i s_j\approx m(s_i+s_j)-m^2. \] 
+\textbf{Mean-field assumption:} \[ \delta s_i\delta s_j\approx0 \implies s_i s_j\approx m(s_i+s_j)-m^2. \] 
 
 \textbf{Approximate partition function:} Since \[ \sum_{\langle i,j\rangle}1=\frac{Nz}{2}, \] we obtain \[ Z_G^{\mathsf{MF}} = \exp\left(-\frac{\beta JNz m^2}{2}\right) \left[ 2\cosh\left(\beta B_{\mathsf{MF}}\right) \right]^N, \] where \[ B_{\mathsf{MF}}=B+Jzm. \] The self-consistency equation for the magnetization is \[ m= \frac{1}{\beta N} \frac{\partial\ln Z_G}{\partial B} = \tanh\left[\beta(B+Jzm)\right]. \]
+The mean-field free energy per spin (extrema give that equation) is
+\[
+f_{\rm MF}(m)=\frac{Jz}{2}m^2
+-\frac1\beta\ln\!\bigl[2\cosh\bigl(\beta(B+Jzm)\bigr)\bigr]
+\]
+(up to an additive constant). Then
+$\partial_m f_{\rm MF}=0\Leftrightarrow m=\tanh[\beta(B+Jzm)]$,
+and $\partial_m^2 f_{\rm MF}>0$ selects stable solutions.
 
 \textbf{Power-laws}
 At $h=0$, $T_c=zJ/\kb$. Near $T_c$:
@@ -490,7 +530,6 @@ After the microscopic variables are summed or integrated out, $\phi$ acquires an
 % $\phi_0^2=-a_0t/u$ for $t<0$. If the quartic coefficient becomes negative,
 % a stabilizing $+v\phi^6$ term gives a first-order transition; $u=0$ is a
 % tricritical point.
-
 % Long-wavelength generalization:
 % \[
 % \mathcal F[\phi]=\int\dd^dx\left[
@@ -505,7 +544,6 @@ After the microscopic variables are summed or integrated out, $\phi$ acquires an
 % and the appropriate symmetry. An order parameter vanishes in the symmetric
 % phase and distinguishes symmetry-related ordered phases.
 % \end{mytikzbox}
-
 \begin{mytikzbox}{Landau and Ginzburg--Landau theory}{0.475}
 Landau theory uses a coarse-grained order parameter $\varphi$ (e.g.\ magnetization).
 (After HS, integrating out the microscopic degrees of freedom turns the auxiliary field
@@ -617,7 +655,10 @@ $\partial\avg\phi/\partial J=\widetilde G(0)$.
 
 \begin{mytikzbox}{Goldstone modes}{0.475} An $O(n)$ field is an $n$-component real field, $\vec{\phi}(\vec{x}) = (\phi_1(\vec{x}),...,\phi_n(\vec{x}))$, whose free energy is invariant under rotations $R\in O(n)$. 
   
-For an \(O(n)\) field, \[ \mathcal F=\int\dd^dx\left[ \frac c2(\grad\bm\phi)^2+\frac r2\bm\phi^2+ \frac u4(\bm\phi^2)^2\right],\qquad r<0. \] The minima form a continuous sphere of equivalent ordered states. Spontaneous symmetry breaking means that the system chooses one direction, for example \[ \avg{\bm\phi}=v\hat e_1,\qquad v^2=-r/u, \] and we decompose \[ \bm\phi=(v+\sigma,\pi_1,\ldots,\pi_{n-1}). \] The longitudinal fluctuation \(\sigma\) changes the magnitude of the order parameter and moves away from the minimum, so it costs local energy. The transverse fluctuations \(\pi_a\) rotate the order parameter between equivalent minima, so a uniform rotation costs no energy: \[ m_L^2=2|r|\quad(\sigma\text{, longitudinal}), \qquad m_T^2=0\quad(\pi_a\text{, transverse}). \] Thus spontaneous breaking \(G\to H\) creates \(\dim G-\dim H\) massless Goldstone modes: one for each independent direction along the degenerate vacuum manifold. For \(O(n)\to O(n-1)\), there are \(n-1\) such modes, with \[ G_T(k)\sim\frac1{ck^2}. \] Only spatial variations of these rotations cost gradient energy, which vanishes for sufficiently long wavelengths. \end{mytikzbox}
+For an \(O(n)\) field, \[ \mathcal F=\int\dd^dx\left[ \frac c2(\grad\bm\phi)^2+\frac r2\bm\phi^2+ \frac u4(\bm\phi^2)^2\right],\qquad r<0. \] The minima form a continuous sphere of equivalent ordered states. Spontaneous symmetry breaking means that the system chooses one direction, for example \[ \avg{\bm\phi}=v\hat e_1,\qquad v^2=-r/u, \] and we decompose \[ \bm\phi=(v+\sigma,\pi_1,\ldots,\pi_{n-1}). \] The longitudinal fluctuation \(\sigma\) changes the magnitude of the order parameter and moves away from the minimum, so it costs local energy. The transverse fluctuations \(\pi_a\) rotate the order parameter between equivalent minima, so a uniform rotation costs no energy: \[ m_L^2=2|r|\quad(\sigma\text{, longitudinal}), \qquad m_T^2=0\quad(\pi_a\text{, transverse}). \] Thus spontaneous breaking \(G\to H\) creates \(\dim G-\dim H\) massless Goldstone modes: one for each independent direction along the degenerate vacuum manifold. For \(O(n)\to O(n-1)\), there are \(n-1\) such modes, with \[ G_T(k)\sim\frac1{ck^2}. \] Only spatial variations of these rotations cost gradient energy, which vanishes for sufficiently long wavelengths. 
+
+Mermin-Wagner theorem: In local-interaction systems, there is no finite-temperature continuous symmetry breaking in $d<2$ dimensions.
+\end{mytikzbox}
 
 \begin{mytikzbox}{Upper/lower critical dimensions and Ginzburg criterion}{0.475} The lower critical dimension asks: in how few dimensions can an ordered phase survive fluctuations? For a system with a broken continuous symmetry, the massless Goldstone modes have \[ G_T(k)\sim\frac{1}{k^2}, \qquad \avg{\pi^2}\sim\int_{k_{\min}}\frac{\dd^dk}{k^2}. \] For \(d\le2\), the long-wavelength contribution \(k\to0\) diverges. Large-scale rotations then destroy the chosen direction of the order parameter, so there is no finite-\(T\) continuous symmetry breaking in short-range systems (Mermin--Wagner). Hence \(d_\ell=2\) for \(O(n\ge2)\). For the discrete Ising symmetry there are no Goldstone modes, and \(d_\ell=1\). 
   
@@ -651,6 +692,7 @@ already generated by the exponential.
 
 \textbf{Example}
 \(\ell=3\): The connected graphs are the three open chains and the triangle: \[ \sum_{G\in\mathcal C_3}\prod f_{ij} = f_{12}f_{13}+f_{12}f_{23}+f_{13}f_{23} +f_{12}f_{13}f_{23}. \] Hence \[ b_3=\frac1{3!V}\int_{V^3} \bigl[f_{12}f_{13}+f_{12}f_{23}+f_{13}f_{23} +f_{12}f_{13}f_{23}\bigr] \prod_{i=1}^3\dd^dr_i. \] The open chains are reducible: removing their central particle disconnects the graph. The triangle remains connected after removing any one particle and is therefore irreducible. Connected graphs determine \(\ln Z_\Omega\), while the virial coefficients contain only irreducible graphs; consequently, only the triangle contributes directly to \(B_3\). For a partition with \(n_k\) clusters of size \(k\), \[ \sum_kkn_k=N, \qquad \Omega_N(\{n_k\})= \frac{N!}{\prod_k(k!)^{n_k}n_k!}. \] 
+If unlabeled particles, must take into account topology - multiply $b_\ell$ by $\ell! / | \text{Aut}(G)|$.
 \end{mytikzbox}
 
 \begin{mytikzbox}{Virial expansion and basic coefficients}{0.475}
@@ -734,10 +776,19 @@ I(\bm b)=\avg{\e^{\bm b^T\bm X}}
 \]
 All odd centered moments vanish. Wick/Isserlis theorem:
 \[
+\avg{X_1\cdots X_{2n}}
+=\sum_{\pi\in\mathcal P_{2n}}
+\prod_{(i,j)\in\pi}C_{ij},
+\qquad
+\avg{X_1\cdots X_{2n+1}}=0,
+\]
+where \(\mathcal P_{2n}\) is the set of perfect matchings of \(\{1,\ldots,2n\}\)
+(there are $(2n-1)!!=(2n)!/(2^n n!)$ of them). E.g.\
+\[
 \avg{X_1X_2X_3X_4}=C_{12}C_{34}+C_{13}C_{24}+C_{14}C_{23}.
 \]
 For Gaussian variables, zero covariance implies independence.
-\end{mytikzbox}
+\end{mytikzbox} 
 
 \begin{mytikzbox}{Langevin equations and moments}{0.475}
 Underdamped Brownian particle:
@@ -745,7 +796,7 @@ Underdamped Brownian particle:
 m\dot v=-\gamma v+F(x)+\xi(t),
 \qquad \avg{\xi(t)\xi(t')}=2\gamma\kb T\delta(t-t').
 \]
-For $F=0$, $\tau_B=m/\gamma$ and
+For $F=0$ (Ornstein--Uhlenbeck), $\tau_B=m/\gamma$ and
 \[
 v(t)=v_0\e^{-t/\tau_B}+\frac1m\int_0^t
 \e^{-(t-s)/\tau_B}\xi(s)\dd s,
@@ -974,6 +1025,13 @@ $D_{ij}=(BB^T)_{ij}$,
 \[
 \partial_tP=-\partial_i(a_iP)+\frac12\partial_i\partial_j(D_{ij}P).
 \]
+Observable evolution (boundary terms vanishing):
+\[
+\frac{\dd}{\dd t}\avg{A(\bm x)}
+=\avg{a_i\partial_iA+\tfrac12 D_{ij}\partial_i\partial_jA}.
+\]
+In 1D: $\frac{\dd}{\dd t}\avg x=\avg{a(x,t)}$ and
+$\frac{\dd}{\dd t}\avg{x^2}=2\avg{xa}+\avg{b^2}$.
 Boundary conditions: reflecting $J\cdot\hat n=0$; absorbing $P=0$.
 Stationarity requires $\partial_xJ=0$; equilibrium with no net current has $J=0$.
 For additive overdamped motion
@@ -987,26 +1045,32 @@ P_{\rm eq}(x)=Z^{-1}\e^{-\beta U(x)}.
 \]
 \end{mytikzbox}
 
-% \begin{mytikzbox}{Ornstein--Uhlenbeck / harmonic solution}{0.475}
-% For
-% \[
-% \dd x=-\kappa x\dd t+\sqrt{2D}\dd W_t,
-% \qquad P(x,0)=\delta(x-x_0),
-% \]
-% \[
-% \mu(t)=x_0\e^{-\kappa t},
-% \qquad \sigma^2(t)=\frac D\kappa(1-\e^{-2\kappa t}),
-% \]
-% \[
-% P(x,t)=\frac1{\sqrt{2\pi\sigma^2(t)}}
-% \exp\!\left[-\frac{(x-\mu(t))^2}{2\sigma^2(t)}\right].
-% \]
-% At long times $P_{\rm eq}\propto\e^{-\kappa x^2/(2D)}$.
-% For $\gamma\dot x=-kx+\xi$, one has $\kappa=k/\gamma$ and
-% $D=\kb T/\gamma$, hence $\sigma^2(\infty)=\kb T/k$.
-% Free diffusion ($\kappa=0$):
-% $P=(4\pi Dt)^{-1/2}\exp[-(x-x_0)^2/(4Dt)]$.
-% \end{mytikzbox}
+\begin{mytikzbox}{Ornstein--Uhlenbeck process}{0.475}
+Free underdamped velocity ($F=0$), $\tau=m/\gamma$:
+\[
+\dd v=-\frac v\tau\dd t+\sqrt{2D_v}\,\dd W_t,
+\quad
+v(t)=v_0\e^{-t/\tau}
++\sqrt{2D_v}\int_0^t\e^{-(t-s)/\tau}\dd W_s,
+\]
+\[
+\avg{v(t)}=v_0\e^{-t/\tau},
+\qquad
+\Var[v(t)]=D_v\tau\bigl(1-\e^{-2t/\tau}\bigr).
+\]
+Thermal: $D_v=\gamma\kb T/m^2=\kb T/(m\tau)$, so
+\[
+\avg{v(t)v(t')}_{\rm eq}
+=\frac{\kb T}{m}\e^{-|t-t'|/\tau}.
+\]
+With $x(t)-x(0)=\int_0^t v(s)\dd s$ and $D=\kb T/\gamma$,
+\[
+\avg{[x(t)-x(0)]^2}
+=2D\bigl[t-\tau(1-\e^{-t/\tau})\bigr],
+\]
+so $\avg{\Delta x^2}\simeq(\kb T/m)t^2$ for $t\ll\tau$ and
+$\simeq2Dt$ for $t\gg\tau$.
+\end{mytikzbox}
 
 \begin{mytikzbox}{Klein--Kramers equation}{0.475}
 For
@@ -1042,6 +1106,28 @@ The zero eigenvalue is the stationary mode; the nonzero eigenvalues determine
 relaxation times. Multiple closed communicating classes may give multiple
 stationary states. Probability conservation follows by summing the master equation
 over $i$.
+\end{mytikzbox}
+
+\begin{mytikzbox}{Probability-generating functions (master eq.)}{0.475}
+For discrete $n=0,1,\ldots$,
+\[
+G(z,t)=\sum_{n=0}^\infty P_n(t)z^n,
+\quad
+G(1,t)=1,
+\quad
+\avg n=\partial_zG(1,t),
+\]
+\[
+\avg{n(n-1)\cdots(n-k+1)}=\partial_z^kG(1,t).
+\]
+Useful translations:
+\begin{gather*}
+\sum_n nP_nz^n=z\partial_zG,
+\quad
+\sum_n(n+1)P_{n+1}z^n=\partial_zG,\\
+\sum_n(n-1)P_{n-1}z^n=z^2\partial_zG.
+\end{gather*}
+Many birth--death master equations become first-order PDEs for $G$.
 \end{mytikzbox}
 
 \begin{mytikzbox}{Detailed balance}{0.475}
